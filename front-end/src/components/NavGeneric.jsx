@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 
-class NavGeneric extends Component {
-
-  render() {
+function NavGeneric() {
     return (
         <header>
         <nav>
@@ -18,6 +16,5 @@ class NavGeneric extends Component {
         </nav>
       </header>
     );
-  }
 }
 export default NavGeneric;
