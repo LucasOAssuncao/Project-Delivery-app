@@ -3,6 +3,6 @@ const verifyAccount = require('../middlewares/verifyAccount');
 
 const router = express.Router();
 
-router.post('/login', verifyAccount);
+router.post('/', verifyAccount);
 
 module.exports = router;

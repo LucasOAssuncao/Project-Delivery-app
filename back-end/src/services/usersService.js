@@ -1,11 +1,39 @@
-const { User } = require("../database/models");
+const { User } = require('../database/models');
+const errorGenerate = require('../utils/errorGenerate');
 
-const findByEmail = async (email) => {
-  const user = await User.findOne({ where: { email } });
+const usersService = {
+  create: async ({ name, email, cryptoPassword }) => {
+    await User.create({
+      name,
+      email,
+      password: cryptoPassword,
+      role: 'customer',
+    });
+  },
 
-  return user;
+  getAll: async () => {
+    const users = await User.findAll({
+      attributes: ['id', 'name', 'email', 'role'],
+    });
+    return users;
+  },
+
+  findByEmail: async (email) => {
+    const user = await User.findOne({ where: { email } });
+
+    return user;
+  },
+
+  getById: async (id) => {
+    const user = await User.findByPk(id, {
+      attributes: ['id', 'name', 'email', 'role'],
+    });
+
+    if (user === null) throw errorGenerate('User does not exist', 404);
+    return user;
+  },
+
+  delete: async (id) => User.destroy({ where: { id } }),
 };
 
-module.exports = {
-  findByEmail,
-};
+module.exports = usersService;
