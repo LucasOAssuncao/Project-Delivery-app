@@ -5,7 +5,7 @@ import ContextLogin from './ContextLogin';
 function ProviderLogin({ children }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [dependencias, setDependencias] = useState(() => )
+  const [dependencias, setDependencias] = useState(() => ())
 
   const contextValue = useMemo(() => ({ email, setEmail, password, setPassword }), [dependencias]);
   return (
