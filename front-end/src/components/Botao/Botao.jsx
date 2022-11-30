@@ -1,10 +1,10 @@
 import React from 'react';
 // import PropTypes from 'prop-types'
 
-const Botao = ({onclick, children, disable, classname, showButton, dataTestId}) => {
+const Botao = ({onclick, children, disable, classname, showButton, dataTestId, type}) => {
     return (
         showButton && (
-            <button type='button' onclick={onclick} className={`${classname}`} disabled={disable} data-testid={dataTestId} >
+            <button type={type} onclick={onclick} className={`${classname}`} disabled={disable} data-testid={dataTestId} >
                 {children}
             </button>
         )
@@ -12,11 +12,13 @@ const Botao = ({onclick, children, disable, classname, showButton, dataTestId}) 
 };
 
 Botao.defaultProps = {
+    type: 'button',
     children: '',
     disable: false,
     className: '',
-    showButton: 'true',
+    showButton: true,
     dataTestId: '',
+    onclick: () => {},
 }
 
 export default Botao;
