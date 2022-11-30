@@ -1,0 +1,22 @@
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import ContextLogin from './ContextLogin';
+
+function ProviderLogin({ children }) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [dependencias, setDependencias] = useState(() => )
+
+  const contextValue = useMemo(() => ({ email, setEmail, password, setPassword }), [dependencias]);
+  return (
+    <ContextLogin.Provider value={ contextValue }>
+      {children}
+    </ContextLogin.Provider>
+  );
+}
+
+ProviderLogin.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+export default ProviderLogin;
