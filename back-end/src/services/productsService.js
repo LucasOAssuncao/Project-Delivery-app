@@ -23,6 +23,6 @@ const productsService = {
     },
 
     delete: async (id) => Product.destroy({ where: { id } }),
-}
+};
 
 module.exports = productsService;
