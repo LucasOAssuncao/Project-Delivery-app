@@ -1,9 +1,9 @@
-const { verify } = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 
 const SECRET_TOKEN = 'secret_key'
-const authenticate = async (token) => {
+const authenticate = (token) => {
     try {
-      const validateToken = verify(token, SECRET_TOKEN);
+      const validateToken = jwt.verify(token, 'secret_key');
       return validateToken;
     } catch (error) {
       return false;

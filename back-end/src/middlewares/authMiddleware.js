@@ -2,13 +2,11 @@ const authenticateToken = require('../utils/authenticateToken');
 const errorGenerate = require('../utils/errorGenerate');
 
 const authMiddleware = async (req, res, next) => {
-    const authorization = req.header('Authorization');
-    console.log('authori', authorization)
+    const { authorization } = req.headers;
 
     if (!authorization) return res.status(401).json({ message: 'Token not found' });
 
-    const userAuth = await authenticateToken(authorization);
-    console.log('user', userAuth)
+    const userAuth = authenticateToken(authorization);
 
     if (!userAuth) return next(errorGenerate('Expired or invalid token', 401));
 

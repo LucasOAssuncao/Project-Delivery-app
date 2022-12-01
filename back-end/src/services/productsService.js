@@ -10,9 +10,10 @@ const productsService = {
         });
     },
 
-    getAll: async () => Product.findAll({
-        attributes: ['id', 'name', 'price', 'image'],
-    }),
+    getAll: async () => {
+        const products = await Product.findAll({});
+        return products;
+    },
 
     getById: async (id) => {
         const product = await Product.findByPk(id);
@@ -24,4 +25,4 @@ const productsService = {
     delete: async (id) => Product.destroy({ where: { id } }),
 }
 
-module.exports = { productsService }
+module.exports = productsService;
