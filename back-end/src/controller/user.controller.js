@@ -14,6 +14,12 @@ const userController = {
 
     res.status(201).json({ message: 'User created!' });
   },
+
+  getUser: async (req, res) => {
+    const { name, email, role } = req.user;
+
+    res.status(201).json({ name, email, role });
+  }
 };
 
 module.exports = userController;
