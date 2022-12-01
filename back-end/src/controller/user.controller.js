@@ -16,9 +16,9 @@ const userController = {
   },
 
   getUser: async (req, res) => {
-    const { name, email, role } = req.user;
+    const { name, email, role, id } = req.user;
 
-    res.status(201).json({ name, email, role });
+    res.status(201).json({ name, email, role, id });
   }
 };
 
