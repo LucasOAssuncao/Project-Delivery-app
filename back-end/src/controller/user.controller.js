@@ -19,7 +19,7 @@ const userController = {
     const { name, email, role, id } = req.user;
 
     res.status(201).json({ name, email, role, id });
-  }
+  },
 };
 
 module.exports = userController;

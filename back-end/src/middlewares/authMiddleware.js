@@ -1,5 +1,4 @@
 const authenticateToken = require('../utils/authenticateToken');
-const errorGenerate = require('../utils/errorGenerate');
 
 const authMiddleware = async (req, res, next) => {
     const { authorization } = req.headers;
@@ -8,7 +7,7 @@ const authMiddleware = async (req, res, next) => {
 
     const userAuth = authenticateToken(authorization);
 
-    if (!userAuth) return next(errorGenerate('Expired or invalid token', 401));
+    if (!userAuth) return res.status(401).json({ message: 'Expired or invalid token' });
 
     req.user = userAuth;
     next();
