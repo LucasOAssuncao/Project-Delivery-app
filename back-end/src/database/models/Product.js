@@ -20,12 +20,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  Product.associate = (models) => {
-    Product.hasMany(models.SaleProduct, {
-      foreignKey: 'id',
-      as: 'idProduct'
-    })
-  };
+  // Product.associate = (models) => {
+  //   Product.hasMany(models.SaleProduct, {
+  //     foreignKey: 'id',
+  //     as: 'idProduct'
+  //   })
+  // };
 
   return Product;
 };

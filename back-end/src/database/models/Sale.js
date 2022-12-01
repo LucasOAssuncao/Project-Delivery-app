@@ -10,26 +10,27 @@ module.exports = (sequelize, DataTypes) => {
       },
       userId: { type: DataTypes.INTEGER, foreignKey: true },
       sellerId: { type: DataTypes.INTEGER, foreignKey: true },
-      deliveryAddres: DataTypes.STRING,
+      totalPrice: DataTypes.DECIMAL,
+      deliveryAddress: DataTypes.STRING,
       deliveryNumber: DataTypes.STRING,
       saleDate: DataTypes.DATE,
       status: DataTypes.STRING,
     },
     {
       createdAt: 'saleDate',
-      timestamps: false,
+      updatedAt: false,
+      timestamps: true,
       tableName: "sales",
       underscored: true,
     }
   );
 
-  Sale.associate = (models) => {
-    Sale.hasMany(models.SaleProduct, {
-      foreignKey: 'id',
-      as: 'product'
-    })
-  };
-
+  // Sale.associate = (models) => {
+  //   Sale.hasMany(models.SaleProduct, {
+  //     foreignKey: 'id',
+  //     as: 'product'
+  //   })
+  // };
 
   Sale.associate = (models) => {
     Sale.belongsTo(models.User, {
