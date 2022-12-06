@@ -1,4 +1,5 @@
 const { SaleProduct } = require('../database/models');
+const errorGenerate = require('../utils/errorGenerate');
 
 const salesProductsService = {
   getById: async (saleId) => {

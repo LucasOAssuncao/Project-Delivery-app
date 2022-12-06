@@ -3,7 +3,6 @@ const errorGenerate = require('../utils/errorGenerate');
 
 const usersService = {
   create: async ({ name, email, cryptoPassword, role }) => {
-    
     await User.create({
       name,
       email,

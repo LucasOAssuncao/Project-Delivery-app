@@ -18,7 +18,8 @@ const orderController = {
 
       const arrOfProducts = await saleProductsService.getById(saleId);
 
-      const products = await Promise.all(arrOfProducts.map(async (e) => await productService.getById(e.productId)));
+      const products = await Promise
+        .all(arrOfProducts.map((e) => productService.getById(e.productId)));
 
       return res.status(200).json(products);
     },
@@ -32,7 +33,7 @@ const orderController = {
       const { id } = req.params;
       const sale = await saleService.getById(id);
       return res.status(200).json(sale);
-    }
+    },
 };
 
 module.exports = orderController;
