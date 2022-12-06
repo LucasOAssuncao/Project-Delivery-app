@@ -22,6 +22,13 @@ module.exports = {
         password: '1234569',
         role: 'seller',
       },
+      {
+        id: 4,
+        name: 'Filho do Claudim Peixoto',
+        email: 'claudiopeixotofilho@gmail.com',
+        password: '1234569',
+        role: 'seller',
+      },
       ], { timestamps: false });
   },
 

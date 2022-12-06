@@ -53,5 +53,8 @@
       "__TESTDESC__": true,
       "__TESTFILE__": true
     }
+  },
+  "dependencies": {
+    "express-async-errors": "^3.1.1"
   }
 }
