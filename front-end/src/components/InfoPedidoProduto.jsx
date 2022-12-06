@@ -39,9 +39,11 @@ function InfoPedidoProduto() {
           <p>
             {produto.price * counter}
           </p>
-          <p>
-            Remover
-          </p>
+          <button type="button" onClick={ () => {} }>
+            <h1>
+              Remover
+            </h1>
+          </button>
           {' '}
         </li>
       ))}
