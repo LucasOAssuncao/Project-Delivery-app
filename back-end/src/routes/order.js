@@ -7,4 +7,6 @@ const router = express.Router();
 
 router.post('/', authMiddleware, orderMiddleware, orderController.createOrder);
 
+router.get('/details', authMiddleware, orderController.getDetailedOrder)
+
 module.exports = router;
