@@ -9,5 +9,6 @@ router.post('/', authMiddleware, orderMiddleware, orderController.createOrder);
 router.get('/details', authMiddleware, orderController.getDetailedOrder);
 router.get('/:id', authMiddleware, orderController.getById);
 router.get('/', authMiddleware, orderController.getAll);
+router.patch('/:id', authMiddleware, orderController.editStatusSale);
 
 module.exports = router;

@@ -40,6 +40,16 @@ const saleService = {
     if (sale === null) throw errorGenerate('Sales does not exist', 404);
     return sale;
   },
+
+  editStatusSale: async (status, id) => {
+    const sale = await Sale.findOne({ where: { id } });
+
+    if (!sale) return undefined;
+  
+    const newSale = await sale.update({ status });
+
+    return newSale;
+  },
 };
 
 module.exports = saleService;
