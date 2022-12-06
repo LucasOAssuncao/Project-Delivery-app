@@ -1,11 +1,16 @@
 const validateEmail = (email) => {
-    const regex = /\S+@+\S+\.\S+/
-    return regex.test(email)
-}
+  const regex = /\S+@+\S+\.\S+/;
+  return regex.test(email);
+};
 
-export const emailValidator = (email) => {
-    if (!email) return null
-    if (!validateEmail(email)) return 'Email inválido!'
+const emailPasswaordValidator = (email, password) => {
+  const minLength = 6;
+  if (!email) return null;
+  if (!password) return null;
+  if (!validateEmail(email)) return 'Email inválido!';
+  if (password.length < minLength) return 'Senha inválida!';
 
-    return null
-}
+  return null;
+};
+
+export default emailPasswaordValidator;
