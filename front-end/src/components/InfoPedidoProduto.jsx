@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import productsList from '../tests/productsList';
 
 function InfoPedidoProduto() {
-  const [produtos, setProdutos] = useState(products);
+  const [produtos, setProdutos] = useState(productsList);
   const [counter, setCounter] = useState(0);
   const [contadorItem, setContadorItem] = useState(0);
 
