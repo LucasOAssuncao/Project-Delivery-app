@@ -19,15 +19,18 @@ const saleService = {
         deliveryAddress: st,
         deliveryNumber: nb,
         status: 'Pendente',
-      }); const { id: saleId } = sale;
+      });
+      const { id: saleId } = sale;
 
       await products.map(async ({ productId, quantity }) => {
         await SaleProduct.create({ saleId, productId, quantity });
       });
 
-      await t.commit(); return sale;
+      await t.commit();
+      return sale;
     } catch (error) {
-      await t.rollback(); throw error;
+      await t.rollback();
+      throw error;
     }
   },
 
@@ -38,10 +41,21 @@ const saleService = {
 
   getById: async (id) => {
     const sale = await Sale.findOne({ where: { id } });
-{ 
-  }   if (sale === null) throw errorGenerate('Sales does not exist', 404);
+    {
+    }
+    if (sale === null) throw errorGenerate('Sales does not exist', 404);
     return sale;
-  }
+  },
+
+  editStatusSale: async (status , id ) => {
+    const sale = await Sale.findOne({ where: { id: id } });
+
+    if (!sale) return undefined;
+  
+    const newSale = await sale.update({ status });
+
+    return newSale;
+  },
 };
 
 module.exports = saleService;

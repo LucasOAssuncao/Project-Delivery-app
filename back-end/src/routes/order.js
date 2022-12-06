@@ -8,6 +8,7 @@ const router = express.Router();
 router.post('/', authMiddleware, orderMiddleware, orderController.createOrder);
 router.get('/:id', authMiddleware, orderController.getById);
 router.get('/', authMiddleware, orderController.getAll);
-router.get('/details', authMiddleware, orderController.getDetailedOrder)
+router.get('/details', authMiddleware, orderController.getDetailedOrder);
+router.patch('/:id', authMiddleware, orderController.editStatusSale);
 
 module.exports = router;
