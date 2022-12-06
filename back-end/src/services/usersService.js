@@ -11,10 +11,16 @@ const usersService = {
     });
   },
 
-  getAll: async () => {
-    const users = await User.findAll({
+  getAllSeller: async () => {
+    const users = await User.findAll(
+    {
+      where: { role: 'seller' },
+    },
+    {
       attributes: ['id', 'name', 'email', 'role'],
-    });
+    },
+  );
+
     return users;
   },
 

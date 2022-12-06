@@ -17,10 +17,10 @@ const verifyAccount = async (req, res) => {
     return res.status(400).json({ message: 'Wrong Password' });
   }
 
-  const { id, name } = user;
+  const { id, name, role } = user;
   console.log(id, name);
 
-  const token = createToken({ email, id, name });
+  const token = createToken({ email, id, name, role });
   res.status(200).json({ token });
 };
 

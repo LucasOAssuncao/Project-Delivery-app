@@ -9,7 +9,7 @@ function LoginPage() {
       {/* <section className='loginLogo'>
                 <div>
                     <img src="" alt="" />
-                </div>
+                </div>        "react-router-dom": "v5.2",
             </section> */}
       <section className="loginForm">
         <LoginForm />

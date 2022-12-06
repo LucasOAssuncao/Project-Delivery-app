@@ -1,7 +1,7 @@
 import React from 'react';
 // import PropTypes from 'prop-types'
 
-const Input = ({label, placeholder, classname, dataTestId}) => {
+const Input = ({ label, placeholder, classname, dataTestId }) => {
     return (
         <>
             {label && (<label className='label'>{label}</label>)}
