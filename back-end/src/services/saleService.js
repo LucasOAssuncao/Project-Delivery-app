@@ -1,7 +1,6 @@
 const Sequelize = require('sequelize');
 const { Sale, SaleProduct } = require('../database/models');
 const config = require('../database/config/config');
-const { getById } = require('./productsService');
 const errorGenerate = require('../utils/errorGenerate');
 
 const env = process.env.NODE_ENV || 'development';
@@ -38,10 +37,9 @@ const saleService = {
 
   getById: async (id) => {
     const sale = await Sale.findOne({ where: { id } });
-{ 
-  }   if (sale === null) throw errorGenerate('Sales does not exist', 404);
+    if (sale === null) throw errorGenerate('Sales does not exist', 404);
     return sale;
-  }
+  },
 };
 
 module.exports = saleService;
