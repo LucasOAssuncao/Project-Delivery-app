@@ -23,9 +23,8 @@ const orderController = {
 
     const arrOfProducts = await saleProductsService.getById(saleId);
 
-    const products = await Promise.all(
-      arrOfProducts.map(async (e) => await productService.getById(e.productId))
-    );
+    const products = await Promise
+      .all(arrOfProducts.map((e) => productService.getById(e.productId)));
 
     return res.status(200).json(products);
   },
@@ -43,7 +42,7 @@ const orderController = {
 
   editStatusSale: async (req, res) => {
     try {
-      const { status } = req.body
+      const { status } = req.body;
       const { id } = req.params;
       const sale = await saleService.editStatusSale(status, id);
 

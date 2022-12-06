@@ -1,7 +1,6 @@
 const Sequelize = require('sequelize');
 const { Sale, SaleProduct } = require('../database/models');
 const config = require('../database/config/config');
-const { getById } = require('./productsService');
 const errorGenerate = require('../utils/errorGenerate');
 
 const env = process.env.NODE_ENV || 'development';
@@ -19,18 +18,15 @@ const saleService = {
         deliveryAddress: st,
         deliveryNumber: nb,
         status: 'Pendente',
-      });
-      const { id: saleId } = sale;
+      }); const { id: saleId } = sale;
 
       await products.map(async ({ productId, quantity }) => {
         await SaleProduct.create({ saleId, productId, quantity });
       });
 
-      await t.commit();
-      return sale;
+      await t.commit(); return sale;
     } catch (error) {
-      await t.rollback();
-      throw error;
+      await t.rollback(); throw error;
     }
   },
 
@@ -41,14 +37,12 @@ const saleService = {
 
   getById: async (id) => {
     const sale = await Sale.findOne({ where: { id } });
-    {
-    }
     if (sale === null) throw errorGenerate('Sales does not exist', 404);
     return sale;
   },
 
-  editStatusSale: async (status , id ) => {
-    const sale = await Sale.findOne({ where: { id: id } });
+  editStatusSale: async (status, id) => {
+    const sale = await Sale.findOne({ where: { id } });
 
     if (!sale) return undefined;
   
