@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 // import Input from '../../../components/Input/Input';
-import Botao from '../../../components/Botao/Botao';
+// import Botao from '../../../components/Botao/Botao';
 import { validateEmail } from '../../../utils/validateEmail';
 
 function LoginForm() {
@@ -42,19 +42,18 @@ function LoginForm() {
   return (
     <>
       <form>
-
         <input
           label="Login"
           placeholder="email@trybeer.com"
           className="input-email"
-          dataTestId="common_login__input-email"
+          data-testid="common_login__input-email"
           onChange={ ({ target: { value } }) => setEmail(value) }
         />
         <input
           label="Senha"
           placeholder="******"
           className="input-senha"
-          dataTestId="common_login__input-password"
+          data-testid="common_login__input-password"
           onChange={ ({ target: { value } }) => setPassword(value) }
         />
         {!logged
@@ -62,19 +61,20 @@ function LoginForm() {
         <button
           onClick={ () => handleClick() }
           className="botao-login"
-          dataTestId="common_login__button-login"
+          data-testid="common_login__button-login"
           type="button"
           disabled={ disable }
         >
           LOGIN
         </button>
       </form>
-      <Botao
-        onclick={ () => history.push('/register') }
-        dataTestId="common_login__button-register"
+      <button
+        onClick={ () => history.push('/register') }
+        data-testid="common_login__button-register"
+        type="button"
       >
         Ainda não tenho conta
-      </Botao>
+      </button>
     </>
   );
 }
