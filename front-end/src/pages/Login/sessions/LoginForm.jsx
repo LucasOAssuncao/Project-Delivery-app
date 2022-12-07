@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import Input from '../../../components/Input/Input';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import axios from 'axios';
+// import Input from '../../../components/Input/Input';
 import Botao from '../../../components/Botao/Botao';
-import validateEmail from '../../../utils/validateEmail';
-import requestPost from '../../../services/api';
+import { validateEmail } from '../../../utils/validateEmail';
 
 function LoginForm() {
   const [email, setEmail] = useState('');
@@ -12,81 +13,62 @@ function LoginForm() {
   const history = useHistory();
 
   useEffect(() => {
-    if (!validateEmail(email)) setDisable(true);
-    setDisable(false);
-  }, [email, password]);
-
-  const login = async () => {
-    const badRequest = 404;
-    const success = 200;
-    const { status, data } = await requestPost('login', { email, password });
-
-    if (status === badRequest) setLogged(false);
-
-    // se success settar o token na chave token no localstorage
-
-    if (status === success) {
-      if (data.user.role === 'customer') history.push('/customer/products');
-      if (data.user.role === 'seller') history.push('/seller/orders');
-      if (data.user.role === 'administrator') history.push('/administrator/management');
+    if (validateEmail(email)) setDisable(false);
+    else {
+      setDisable(true);
     }
+  }, [email]);
+
+  const handleClick = () => {
+    axios
+      .post('http://localhost:3001/login', {
+        email,
+        password,
+      })
+      .then((response) => {
+        localStorage.setItem('token', response.data.token);
+        if (response.data.role === 'customer') history.push('/customer/products');
+        if (response.data.role === 'seller') history.push('/seller/orders');
+        if (response.data.role === 'administrator') {
+          history
+            .push('/administrator/management');
+        }
+      })
+      .catch(() => {
+        setLogged(false);
+      });
   };
 
   return (
-<<<<<<< HEAD
-    <form>
-      <Input
-        label="Login"
-        placeholder="email@trybeer.com"
-        classname="input-email"
-        dataTestId="common_login__input-email"
-        onChange={ (e) => setEmail(e.target.value) }
-      />
-      <Input
-        label="Senha"
-        placeholder="******"
-        classname="input-senha"
-        dataTestId="common_login__input-password"
-        onChange={ (e) => setPassword(e.target.value) }
-      />
-      <Botao
-        onclick={ () => { } }
-        classname="botao-login"
-        dataTestId="common_login__button-login"
-        type="submit"
-        disable={ disable }
-      >
-        LOGIN
-      </Botao>
-=======
     <>
       <form>
-        <Input
+
+        <input
           label="Login"
           placeholder="email@trybeer.com"
-          classname="input-email"
+          className="input-email"
           dataTestId="common_login__input-email"
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={ ({ target: { value } }) => setEmail(value) }
         />
-        <Input
+        <input
           label="Senha"
           placeholder="******"
-          classname="input-senha"
+          className="input-senha"
           dataTestId="common_login__input-password"
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={ ({ target: { value } }) => setPassword(value) }
         />
-        {/* {!logged && <p data-testid="common_login__element-invalid-email">mensagem de erro</p>} */}
-        <Botao
-          onclick={() => login()}
-          classname="botao-login"
+        {!logged
+        && <p data-testid="common_login__element-invalid-email">Usuário inválido</p>}
+        <button
+          onClick={ () => handleClick() }
+          className="botao-login"
           dataTestId="common_login__button-login"
-          type="submit"
-          disable={disable}
+          type="button"
+          disabled={ disable }
         >
           LOGIN
-        </Botao>
+        </button>
       </form>
->>>>>>> origin/main-group-14-feat-componentes-frontend
       <Botao
         onclick={ () => history.push('/register') }
         dataTestId="common_login__button-register"

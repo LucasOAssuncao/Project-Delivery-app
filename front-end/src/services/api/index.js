@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const HOST = process.env.REACT_APP_API_HOST || 'localhost:3001';
 
-export const api = axios.create({
+const api = axios.create({
   baseURL: `http://${HOST}/`,
   timeout: 10000,
   headers: {
@@ -24,3 +24,5 @@ export const requestGet = async (endpoint) => {
   const { data } = await api.get(endpoint);
   return data;
 };
+
+export default api;

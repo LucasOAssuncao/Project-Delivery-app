@@ -21,7 +21,7 @@ const verifyAccount = async (req, res) => {
   console.log(id, name);
 
   const token = createToken({ email, id, name, role });
-  res.status(200).json({ token });
+  res.status(200).json({ token, role });
 };
 
 module.exports = verifyAccount;

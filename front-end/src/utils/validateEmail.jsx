@@ -1,6 +1,7 @@
-const validateEmail = (email) => {
+export const validateEmail = (email) => {
   const regex = /\S+@+\S+\.\S+/;
-  return regex.test(email);
+  const result = regex.test(email);
+  return result;
 };
 
 const emailPasswaordValidator = (email, password) => {
