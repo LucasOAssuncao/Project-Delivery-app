@@ -16,6 +16,8 @@ app.use('/register', registerRouter);
 app.use('/products', productRouter);
 app.use('/sellers', sellerRouter);
 app.use('/order', orderRouter);
+app.use('/images', express.static('images'));
+
 app.use(errorMiddleware);
 
 app.get('/coffee', (_req, res) => res.status(418).end());
