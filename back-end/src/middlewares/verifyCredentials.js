@@ -14,7 +14,7 @@ const verifyCredentials = (req, res, next) => {
       .json({ message: 'Password must have at least 6 characters' });
   }
 
-  const emailRegex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i;
+  const emailRegex = /\S+@+\S+\.\S+/;
   if (!emailRegex.test(email)) {
     return res.status(400).json({
       message: 'Email must have a valid format',
