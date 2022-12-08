@@ -40,6 +40,12 @@ const orderController = {
     return res.status(200).json(sale);
   },
 
+  getByIdUser: async (req, res, _next) => {
+    const { id } = req.params;
+    const sale = await saleService.getByIdUser(id);
+    return res.status(200).json(sale);
+  },
+
   editStatusSale: async (req, res) => {
     try {
       const { status } = req.body;
