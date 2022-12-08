@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
-// import Input from '../../../components/Input/Input';
-// import Botao from '../../../components/Botao/Botao';
 import { validateEmail } from '../../../utils/validateEmail';
 
 function LoginForm() {
