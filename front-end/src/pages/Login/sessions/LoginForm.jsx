@@ -25,6 +25,8 @@ function LoginForm() {
       })
       .then((response) => {
         localStorage.setItem('token', response.data.token);
+        console.log(response);
+        localStorage.setItem('user', JSON.stringify(response.data));
         if (response.data.role === 'seller') history.push('/seller/orders');
         if (response.data.role === 'administrator') {
           history.push('/administrator/management');

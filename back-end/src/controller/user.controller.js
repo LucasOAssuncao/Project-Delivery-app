@@ -1,14 +1,16 @@
 const md5 = require('md5');
 const usersService = require('../services/usersService');
+const createToken = require('../utils/createToken');
 
 const userController = {
   signUp: async (req, res) => {
     const { name, email, password, role } = req.body;
     const cryptoPassword = md5(password);
 
-    await usersService.create({ name, email, cryptoPassword, role });
+    const { id } = await usersService.create({ name, email, cryptoPassword, role });
+    const token = createToken({ email, id, name, role });
 
-    res.status(201).json({ name, email, role });
+    res.status(201).json({ name, email, role, token });
   },
 
   getUser: async (req, res) => {
