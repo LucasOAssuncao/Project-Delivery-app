@@ -1,10 +1,12 @@
-export const validateEmail = (email) => {
+export const validateEmail = (email, password) => {
   const regex = /\S+@+\S+\.\S+/;
   const result = regex.test(email);
+  const minLength = 6;
+  if (!result || password.length < minLength) return false;
   return result;
 };
 
-const emailPasswaordValidator = (email, password) => {
+export const emailPasswaordValidator = (email, password) => {
   const minLength = 6;
   if (!email) return null;
   if (!password) return null;
@@ -13,5 +15,3 @@ const emailPasswaordValidator = (email, password) => {
 
   return null;
 };
-
-export default emailPasswaordValidator;

@@ -13,11 +13,11 @@ function LoginForm() {
   const history = useHistory();
 
   useEffect(() => {
-    if (validateEmail(email)) setDisable(false);
+    if (validateEmail(email, password)) setDisable(false);
     else {
       setDisable(true);
     }
-  }, [email]);
+  }, [email, password]);
 
   const handleClick = () => {
     axios
@@ -27,14 +27,14 @@ function LoginForm() {
       })
       .then((response) => {
         localStorage.setItem('token', response.data.token);
-        if (response.data.role === 'customer') history.push('/customer/products');
         if (response.data.role === 'seller') history.push('/seller/orders');
         if (response.data.role === 'administrator') {
-          history
-            .push('/administrator/management');
+          history.push('/administrator/management');
         }
+        history.push('/customer/products');
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err.response.data);
         setLogged(false);
       });
   };
@@ -56,8 +56,6 @@ function LoginForm() {
           data-testid="common_login__input-password"
           onChange={ ({ target: { value } }) => setPassword(value) }
         />
-        {!logged
-        && <p data-testid="common_login__element-invalid-email">Usuário inválido</p>}
         <button
           onClick={ () => handleClick() }
           className="botao-login"
@@ -75,6 +73,8 @@ function LoginForm() {
       >
         Ainda não tenho conta
       </button>
+      {!logged
+      && <p data-testid="common_login__element-invalid-email">Usuário inválido</p>}
     </>
   );
 }
