@@ -4,7 +4,7 @@ const usersService = require('../services/usersService');
 const userController = {
   signUp: async (req, res) => {
     const { name, email, password, role } = req.body;
-    const cryptoPassword = md5(password)
+    const cryptoPassword = md5(password);
 
     await usersService.create({ name, email, cryptoPassword, role });
 
