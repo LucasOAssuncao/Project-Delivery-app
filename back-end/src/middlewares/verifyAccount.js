@@ -1,6 +1,7 @@
-const bcrypt = require('bcrypt');
+const md5 = require('md5');
 const createToken = require('../utils/createToken');
 const usersService = require('../services/usersService');
+require('dotenv/config');
 
 const verifyAccount = async (req, res) => {
   const { email, password } = req.body;
@@ -11,9 +12,9 @@ const verifyAccount = async (req, res) => {
     return res.status(404).json({ message: 'User Not Found' });
   }
 
-  const isPasswordValid = await bcrypt.compare(password, user.password);
+  const crypted = md5(password);
 
-  if (!isPasswordValid) {
+  if (crypted !== user.password) {
     return res.status(400).json({ message: 'Wrong Password' });
   }
 

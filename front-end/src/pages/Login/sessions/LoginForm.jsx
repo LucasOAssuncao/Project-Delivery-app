@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 // import Input from '../../../components/Input/Input';
-import Botao from '../../../components/Botao/Botao';
+// import Botao from '../../../components/Botao/Botao';
 import { validateEmail } from '../../../utils/validateEmail';
 
 function LoginForm() {
@@ -13,11 +13,11 @@ function LoginForm() {
   const history = useHistory();
 
   useEffect(() => {
-    if (validateEmail(email)) setDisable(false);
+    if (validateEmail(email, password)) setDisable(false);
     else {
       setDisable(true);
     }
-  }, [email]);
+  }, [email, password]);
 
   const handleClick = () => {
     axios
@@ -27,14 +27,14 @@ function LoginForm() {
       })
       .then((response) => {
         localStorage.setItem('token', response.data.token);
-        if (response.data.role === 'customer') history.push('/customer/products');
         if (response.data.role === 'seller') history.push('/seller/orders');
         if (response.data.role === 'administrator') {
-          history
-            .push('/administrator/management');
+          history.push('/administrator/management');
         }
+        history.push('/customer/products');
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err.response.data);
         setLogged(false);
       });
   };
@@ -42,39 +42,39 @@ function LoginForm() {
   return (
     <>
       <form>
-
         <input
           label="Login"
           placeholder="email@trybeer.com"
           className="input-email"
-          dataTestId="common_login__input-email"
+          data-testid="common_login__input-email"
           onChange={ ({ target: { value } }) => setEmail(value) }
         />
         <input
           label="Senha"
           placeholder="******"
           className="input-senha"
-          dataTestId="common_login__input-password"
+          data-testid="common_login__input-password"
           onChange={ ({ target: { value } }) => setPassword(value) }
         />
-        {!logged
-        && <p data-testid="common_login__element-invalid-email">Usuário inválido</p>}
         <button
           onClick={ () => handleClick() }
           className="botao-login"
-          dataTestId="common_login__button-login"
+          data-testid="common_login__button-login"
           type="button"
           disabled={ disable }
         >
           LOGIN
         </button>
       </form>
-      <Botao
-        onclick={ () => history.push('/register') }
-        dataTestId="common_login__button-register"
+      <button
+        onClick={ () => history.push('/register') }
+        data-testid="common_login__button-register"
+        type="button"
       >
         Ainda não tenho conta
-      </Botao>
+      </button>
+      {!logged
+      && <p data-testid="common_login__element-invalid-email">Usuário inválido</p>}
     </>
   );
 }
