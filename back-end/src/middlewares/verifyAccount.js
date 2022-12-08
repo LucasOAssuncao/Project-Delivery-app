@@ -19,10 +19,9 @@ const verifyAccount = async (req, res) => {
   }
 
   const { id, name, role } = user;
-  console.log(id, name);
 
   const token = createToken({ email, id, name, role });
-  res.status(200).json({ token, role });
+  res.status(200).json({ token, role, name, id, email });
 };
 
 module.exports = verifyAccount;

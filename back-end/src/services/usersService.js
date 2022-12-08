@@ -3,12 +3,13 @@ const errorGenerate = require('../utils/errorGenerate');
 
 const usersService = {
   create: async ({ name, email, cryptoPassword, role }) => {
-    await User.create({
+    const user = await User.create({
       name,
       email,
       password: cryptoPassword,
       role: !role ? 'customer' : role,
     });
+    return user;
   },
 
   getAllSeller: async () => {
