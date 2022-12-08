@@ -19,8 +19,8 @@ function LoginForm() {
     }
   }, [email, password]);
 
-  const handleClick = () => {
-    axios
+  const handleClick = async () => {
+    await axios
       .post('http://localhost:3001/login', {
         email,
         password,
