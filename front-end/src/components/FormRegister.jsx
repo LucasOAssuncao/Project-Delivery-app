@@ -22,11 +22,11 @@ function FormRegister() {
       })
       .then((response) => {
         localStorage.setItem('user', JSON.stringify(response.data));
+        localStorage.setItem('token', JSON.stringify(response.data.token));
         setfetchError(null);
         history.push('/customer/products');
       })
       .catch((err) => {
-        console.log(err.response);
         setfetchError(err.response.data.message);
       });
   };
