@@ -8,7 +8,7 @@ const userController = {
 
     await usersService.create({ name, email, cryptoPassword, role });
 
-    res.status(201).json({ message: 'User created!' });
+    res.status(201).json({ name, email, role });
   },
 
   getUser: async (req, res) => {

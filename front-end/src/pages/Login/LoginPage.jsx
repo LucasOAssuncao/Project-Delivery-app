@@ -1,6 +1,5 @@
 import React from 'react';
 // import PropTypes from 'prop-types'
-
 import LoginForm from './sessions/LoginForm';
 
 function LoginPage() {

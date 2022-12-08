@@ -21,12 +21,12 @@ function FormRegister() {
         role: 'customer',
       })
       .then((response) => {
-        localStorage.setItem('user', response.data);
+        localStorage.setItem('user', JSON.stringify(response.data));
         setfetchError(null);
         history.push('/customer/products');
       })
       .catch((err) => {
-        console.log(err.response.data);
+        console.log(err.response);
         setfetchError(err.response.data.message);
       });
   };
