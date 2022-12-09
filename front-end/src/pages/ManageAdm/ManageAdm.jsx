@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router';
 import axios from 'axios';
 
 function ManageAdm() {
@@ -6,8 +7,10 @@ function ManageAdm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('Vendedor');
-  const tipos = ['Administrador', 'Cliente', 'Vendedor'];
   const [fetchError, setfetchError] = useState(null);
+  const history = useHistory();
+
+  const tipos = ['Administrador', 'Cliente', 'Vendedor'];
   const nameMinLength = 12;
   const passwordMinLength = 6;
 
@@ -48,9 +51,13 @@ function ManageAdm() {
           <div data-testid="customer_products__element-navbar-user-full-name">
             <p>Admin</p>
           </div>
-          <div>
-            <p data-testid="customer_products__element-navbar-link-logout">Sair</p>
-          </div>
+          <button
+            type="button"
+            data-testid="customer_products__element-navbar-link-logout"
+            onClick={ () => history.push('/customer/products') }
+          >
+            Sair
+          </button>
         </nav>
       </header>
 
