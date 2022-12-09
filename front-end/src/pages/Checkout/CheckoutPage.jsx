@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useHistory } from 'react-router';
 import NavBar from '../../components/Nav';
 
 function Checkout() {
@@ -13,6 +14,7 @@ function Checkout() {
   const [user, setUser] = useState();
 
   const adress = { street, number };
+  const history = useHistory();
 
   useEffect(() => {
     axios.get('http://localhost:3001/sellers')
@@ -131,9 +133,18 @@ function Checkout() {
                   {`R$ ${subTotalValue(product.price, product.quantity)}`}
                 </td>
                 <td>
-                  <h4>
+                  <button
+                    type="button"
+                    data-testid={
+                      `customer_checkout__element-order-table-remove-${index}`
+                    }
+                    onClick={ () => {
+                      onClickButtonFinalizeOrder();
+                      history.push('/customer/orders/<id>');
+                    } }
+                  >
                     Remover
-                  </h4>
+                  </button>
                 </td>
               </tr>
             ))
@@ -142,7 +153,12 @@ function Checkout() {
       </table>
 
       <div>
-        <h2>{`Total: R$ ${totalPrice}`}</h2>
+        <h2
+          data-testid="customer_checkout__element-order-total-price"
+        >
+          {`Total: R$ ${priceValue(totalPrice)}`}
+
+        </h2>
       </div>
 
       <div>
@@ -153,13 +169,12 @@ function Checkout() {
             P. Vendedora Responsável:
           </h3>
           <select
-            data-testid="select-seller"
+            data-testid="customer_checkout__select-seller"
             value={ seller }
             onChange={ (event) => setSeller(event.target.value) }
           >
             {sellers.map((option) => (
               <option
-                data-testid="customer_checkout__select-seller"
                 key={ option.name }
                 value={ option.name }
                 onChange={ () => setSellerId(option.id) }
