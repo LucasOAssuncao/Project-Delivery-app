@@ -19,7 +19,7 @@ const userController = {
     res.status(201).json({ name, email, role, id });
   },
 
-  getAllUsers: async(req,res) => {
+  getAllUsers: async (_req, res) => {
     const users = await usersService.getAll();
 
     res.status(200).json(users);
