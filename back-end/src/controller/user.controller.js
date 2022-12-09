@@ -19,6 +19,12 @@ const userController = {
     res.status(201).json({ name, email, role, id });
   },
 
+  getAllUsers: async(req,res) => {
+    const users = await usersService.getAll();
+
+    res.status(200).json(users);
+  },
+
   getAllSeller: async (req, res) => {
     const sellers = await usersService.getAllSeller();
 

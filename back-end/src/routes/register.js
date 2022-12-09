@@ -5,6 +5,7 @@ const verifyUser = require('../middlewares/verifyUser');
 
 const router = express.Router();
 
+router.get('/', userController.getAllUsers);
 router.post('/', verifyCredentials, verifyUser, userController.signUp);
 
 module.exports = router;

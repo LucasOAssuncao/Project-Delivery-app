@@ -12,6 +12,10 @@ const usersService = {
     return user;
   },
 
+  getAll: async () => {
+    return User.findAll();
+  },
+
   getAllSeller: async () => {
     const users = await User.findAll(
     {
