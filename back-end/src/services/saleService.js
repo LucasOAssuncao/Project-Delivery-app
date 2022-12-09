@@ -18,16 +18,15 @@ const saleService = {
         deliveryAddress: st,
         deliveryNumber: nb,
         status: 'Pendente',
-      }); const { id: saleId } = sale;
+      }); 
+      const { id: saleId } = sale;
 
       await products.map(async ({ productId, quantity }) => {
         await SaleProduct.create({ saleId, productId, quantity });
       });
 
       await t.commit(); return sale;
-    } catch (error) {
-      await t.rollback(); throw error;
-    }
+    } catch (error) { await t.rollback(); throw error; }
   },
 
   getAll: async () => {
