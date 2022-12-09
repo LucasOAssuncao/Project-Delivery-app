@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 function ManageAdm() {
   const [userName, setUserName] = useState('');
@@ -6,9 +7,10 @@ function ManageAdm() {
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('Vendedor');
   const tipos = ['Administrador', 'Cliente', 'Vendedor'];
-  //   const [fetchError, setfetchError] = useState(null);
+  const [fetchError, setfetchError] = useState(null);
   const nameMinLength = 12;
   const passwordMinLength = 6;
+
   const handleClick = async (e) => {
     e.preventDefault();
     await axios
@@ -17,9 +19,7 @@ function ManageAdm() {
         email,
         password,
       })
-      .then((response) => {
-        localStorage.setItem('user', JSON.stringify(response.data));
-        localStorage.setItem('token', JSON.stringify(response.data.token));
+      .then(() => {
         setfetchError(null);
       })
       .catch((err) => {
@@ -115,11 +115,11 @@ function ManageAdm() {
           CADASTRAR
         </button>
       </form>
-      {/* {fetchError && (
+      {fetchError && (
         <span data-testid="admin_manage__element-invalid-register">
           {fetchError.message}
         </span>
-      )} */}
+      )}
 
     </div>
   );
