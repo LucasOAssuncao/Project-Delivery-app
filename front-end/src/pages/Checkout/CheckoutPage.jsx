@@ -62,10 +62,10 @@ function Checkout() {
     return resultMult.toFixed(2).toString().replace('.', ',');
   };
 
-  const removeItemFromCart = (index, price, quantity) => {
+  const removeItemFromCart = (index /* price, quantity */) => {
     const removeItem = products.filter((item, indice) => indice !== index);
     localStorage.setItem('cart', JSON.stringify(removeItem));
-    setTotalPrice([...totalPrice] - subTotalValue(price, quantity));
+    // setTotalPrice(totalPrice - subTotalValue(price, quantity));
     setProducts(removeItem);
   };
 
