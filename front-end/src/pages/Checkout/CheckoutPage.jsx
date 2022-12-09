@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import NavBar from '../../components/Nav';
 
 function Checkout() {
   const [street, setStreet] = useState('');
   const [number, setNumber] = useState('');
-  const [sellers, setSellers] = useState();
+  const [sellers, setSellers] = useState([]);
   const [seller, setSeller] = useState('');
   const [sellerId, setSellerId] = useState('');
   const [products, setProducts] = useState([]);
@@ -22,9 +23,7 @@ function Checkout() {
       .catch((err) => {
         console.log(err.response.data);
       });
-  }, []);
 
-  useEffect(() => {
     const detailsProduct = JSON.parse(localStorage.getItem('cart'));
     setProducts(detailsProduct);
 
@@ -33,7 +32,7 @@ function Checkout() {
 
     const getUser = JSON.parse(localStorage.getItem('user'));
     setUser(getUser);
-  }, [products, totalPrice, user]);
+  }, []);
 
   const onClickButtonFinalizeOrder = async () => {
     await axios
@@ -50,6 +49,16 @@ function Checkout() {
       });
   };
 
+  const priceValue = (price) => {
+    const priceNumber = Number(price);
+    return priceNumber.toFixed(2).toString().replace('.', ',');
+  };
+
+  const subTotalValue = (price, quantity) => {
+    const resultMult = Number(price) * Number(quantity);
+    return resultMult.toFixed(2).toString().replace('.', ',');
+  };
+
   // const clearLocalStorage = (id) => {
 
   // }
@@ -57,50 +66,96 @@ function Checkout() {
   return (
     <div>
       <NavBar />
-      <div>
-        <h1>Finalizar Pedido</h1>
-        <ul>
-          {products.map((product) => (
-            <li key="product.name">
-              <p>
-                Item
-              </p>
-              <p>
-                {product.name}
-              </p>
-              <p>
-                {product.quantity}
-              </p>
-              <p>
-                {product.price}
-              </p>
-              <p>
-                {product.price * product.quantity}
-              </p>
-              <button type="button" onClick={ () => {} }>
-                <h1>
-                  Remover
-                </h1>
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <h1>Finalizar Pedido</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>
+              Item
+            </th>
+            <th>
+              Descrição
+            </th>
+            <th>
+              Quantidade
+            </th>
+            <th>
+              Valor Unitário
+            </th>
+            <th>
+              Sub-total
+            </th>
+            <th>
+              Remover Item
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {
+            products.map((product, index) => (
+              <tr key={ product.name }>
+                <td
+                  data-testid={
+                    `customer_checkout__element-order-table-item-number-${index}`
+                  }
+                >
+                  {`${index + 1}`}
+                </td>
+                <td
+                  data-testid={
+                    `customer_checkout__element-order-table-name-${index}`
+                  }
+                >
+                  {product.name}
+                </td>
+                <td
+                  data-testid={
+                    `customer_checkout__element-order-table-quantity-${index}`
+                  }
+                >
+                  {product.quantity}
+                </td>
+                <td
+                  data-testid={
+                    `customer_checkout__element-order-table-unit-price-${index}`
+                  }
+                >
+                  {`R$ ${priceValue(product.price)}`}
+                </td>
+                <td
+                  data-testid={
+                    `customer_checkout__element-order-table-sub-total-${index}`
+                  }
+                >
+                  {`R$ ${subTotalValue(product.price, product.quantity)}`}
+                </td>
+                <td>
+                  <h4>
+                    Remover
+                  </h4>
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
 
       <div>
-        <h1>{`Total: R$ ${totalPrice}`}</h1>
+        <h2>{`Total: R$ ${totalPrice}`}</h2>
       </div>
 
       <div>
         <h1>Detalhes e Endereço para Entrega</h1>
 
         <label htmlFor="select-seller">
-          P. Vendedora Responsável:
+          <h3>
+            P. Vendedora Responsável:
+          </h3>
           <select
             data-testid="select-seller"
-            value={ coluna }
+            value={ seller }
             onChange={ (event) => setSeller(event.target.value) }
-            id={ `seller-${seller}` }
           >
             {sellers.map((option) => (
               <option
@@ -119,9 +174,9 @@ function Checkout() {
           Endereço:
           <input
             type="text"
-            name="address"
+            name="street"
             data-testid="customer_checkout__input-address"
-            value={ address }
+            value={ street }
             onChange={ ({ target: { value } }) => { setStreet(value); } }
           />
         </label>
@@ -130,9 +185,9 @@ function Checkout() {
           Número:
           <input
             type="text"
-            name="addressNumber"
+            name="number"
             data-testid="customer_checkout__input-address-number"
-            value={ addressNumber }
+            value={ number }
             onChange={ ({ target: { value } }) => { setNumber(value); } }
           />
         </label>
