@@ -28,8 +28,7 @@ const saleService = {
       await t.commit(); return sale;
     } catch (error) {
       await t.rollback(); throw error;
-    }
-  },
+    }},
 
   getAll: async () => {
     const sales = await Sale.findAll({});

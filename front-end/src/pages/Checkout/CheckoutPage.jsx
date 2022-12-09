@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useHistory } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import NavBar from '../../components/Nav';
 
 function Checkout() {
@@ -15,6 +15,7 @@ function Checkout() {
 
   const adress = { street, number };
   const history = useHistory();
+  const { id } = useParams();
 
   useEffect(() => {
     axios.get('http://localhost:3001/sellers')
@@ -45,7 +46,7 @@ function Checkout() {
         adress,
         products,
       })
-      .then((response) => response.data)
+      .then((response) => response.data.id)
       .catch((err) => {
         console.log(err.response.data);
       });
@@ -61,9 +62,12 @@ function Checkout() {
     return resultMult.toFixed(2).toString().replace('.', ',');
   };
 
-  // const clearLocalStorage = (id) => {
-
-  // }
+  const removeItemFromCart = (index, price, quantity) => {
+    const removeItem = products.filter((item, indice) => indice !== index);
+    localStorage.setItem('cart', JSON.stringify(removeItem));
+    setTotalPrice([...totalPrice] - subTotalValue(price, quantity));
+    setProducts(removeItem);
+  };
 
   return (
     <div>
@@ -139,8 +143,7 @@ function Checkout() {
                       `customer_checkout__element-order-table-remove-${index}`
                     }
                     onClick={ () => {
-                      onClickButtonFinalizeOrder();
-                      history.push('/customer/orders/<id>');
+                      removeItemFromCart(index);
                     } }
                   >
                     Remover
@@ -210,7 +213,10 @@ function Checkout() {
         <button
           type="button"
           data-testid="customer_checkout__button-submit-order"
-          onClick={ () => onClickButtonFinalizeOrder() }
+          onClick={ () => {
+            onClickButtonFinalizeOrder();
+            history.push(`/customer/orders/${id}`);
+          } }
         >
           FINALIZAR PEDIDO
         </button>
