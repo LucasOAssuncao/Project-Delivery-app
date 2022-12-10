@@ -10,17 +10,22 @@ function ManageAdm() {
   const [fetchError, setfetchError] = useState(null);
   const history = useHistory();
 
-  const tipos = ['Administrador', 'Cliente', 'Vendedor'];
+  const tipos = ['administrador', 'customer', 'seller'];
   const nameMinLength = 12;
   const passwordMinLength = 6;
 
   const handleClick = async (e) => {
+    const storage = localStorage.getItem('token');
+    axios.defaults.headers.common = { Authorization: storage };
+
     e.preventDefault();
     await axios
-      .post('http://localhost:3001/register', {
+      .post('http://localhost:3001/admin/register', {
         name: userName,
         email,
         password,
+        role,
+        roleAdm: 'Administrator',
       })
       .then(() => {
         setfetchError(null);
