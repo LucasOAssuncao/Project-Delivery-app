@@ -6,13 +6,14 @@ function ManageAdm() {
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('Vendedor');
+  const [role, setRole] = useState('seller');
   const [fetchError, setfetchError] = useState(null);
   const history = useHistory();
 
   const tipos = ['administrador', 'customer', 'seller'];
   const nameMinLength = 12;
   const passwordMinLength = 6;
+  const number = 2000;
 
   const handleClick = async (e) => {
     const storage = localStorage.getItem('token');
@@ -25,9 +26,12 @@ function ManageAdm() {
         email,
         password,
         role,
-        roleAdm: 'Administrator',
       })
       .then(() => {
+        setUserName('');
+        setEmail('');
+        setPassword('');
+        setRole('seller');
         setfetchError(null);
       })
       .catch((err) => {
@@ -44,6 +48,16 @@ function ManageAdm() {
       { option }
     </option>
   ));
+
+  setTimeout(() => {
+    if (fetchError) {
+      setUserName('');
+      setEmail('');
+      setPassword('');
+      setRole('seller');
+      setfetchError(null);
+    }
+  }, number);
 
   return (
     <div>
@@ -65,6 +79,12 @@ function ManageAdm() {
           </button>
         </nav>
       </header>
+
+      {fetchError && (
+        <span data-testid="admin_manage__element-invalid-register">
+          {fetchError}
+        </span>
+      )}
 
       <form onSubmit={ handleClick }>
 
@@ -127,12 +147,6 @@ function ManageAdm() {
           CADASTRAR
         </button>
       </form>
-      {fetchError && (
-        <span data-testid="admin_manage__element-invalid-register">
-          {fetchError.message}
-        </span>
-      )}
-
     </div>
   );
 }
