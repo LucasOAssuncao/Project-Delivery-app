@@ -27,7 +27,7 @@ Para registo de novos usuários.
         "password": "123123"
         }
 
-GET localhost:3001/register
+GET localhost:3001/admin
 Para buscar todos os usuários.
 
         [
@@ -46,6 +46,18 @@ Para buscar todos os usuários.
             "role": "seller"
         },
         ]
+
+POST localhost:3001/admin/register
+Para o administrador cadastrar um novo usuário.
+
+- necessário enviar um objeto como o exemplo:
+
+    {
+        "name": "Fernanda dsfdfdfd",
+        "email": "userdd1@user.com",
+        "password": "123123"
+    }
+
 
 GET localhost:3001/products
 Para buscar todos os produtos.
