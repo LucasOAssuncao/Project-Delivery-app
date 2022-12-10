@@ -12,7 +12,7 @@ const usersService = {
     return user;
   },
 
-  getAll: async () => User.findAll(),
+  getAll: async () => await User.findAll(),
 
   getAllSeller: async () => {
     const users = await User.findAll(
@@ -42,7 +42,13 @@ const usersService = {
     return user;
   },
 
-  delete: async (id) => User.destroy({ where: { id } }),
+  delete: async (id) => {
+    const userExists = await User.findByPk(id);
+    if (userExists === null) throw new errorGenerate('User does not exist', 404);
+
+    const isDelete = await User.destroy({ where: { id } });
+    return isDelete;
+  },
 };
 
 module.exports = usersService;

@@ -7,6 +7,7 @@ const verifyUser = require('../middlewares/verifyUser');
 
 const router = express.Router();
 
+router.delete('/:id', authMiddleware, userController.delete);
 router.post('/register', authMiddleware,
     verifyRole, verifyCredentials, verifyUser, userController.signUp);
 router.get('/', authMiddleware, userController.getAllUsers);

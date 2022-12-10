@@ -25,10 +25,22 @@ const userController = {
     res.status(200).json(users);
   },
 
-  getAllSeller: async (req, res) => {
+  getAllSeller: async (_req, res) => {
     const sellers = await usersService.getAllSeller();
 
     res.status(201).json(sellers);
+  },
+
+  delete: async (req, res, next) => {
+    const { id } = req.params;
+
+    try {
+      const isDelete  = await usersService.delete(id);
+      res.status(200).json(isDelete);
+    } catch (err) {
+      next(err)
+    }
+
   },
 };
 

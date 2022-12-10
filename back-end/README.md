@@ -58,6 +58,8 @@ Para o administrador cadastrar um novo usuário.
         "password": "123123"
     }
 
+DELETE localhost:3001/admin/:id
+Para deletar um usuário.
 
 GET localhost:3001/products
 Para buscar todos os produtos.
