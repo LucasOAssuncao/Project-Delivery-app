@@ -7,7 +7,8 @@ const verifyUser = require('../middlewares/verifyUser');
 
 const router = express.Router();
 
-router.post('/register', authMiddleware, verifyRole, verifyCredentials, verifyUser, userController.signUp)
+router.post('/register', authMiddleware,
+    verifyRole, verifyCredentials, verifyUser, userController.signUp);
 router.get('/', authMiddleware, userController.getAllUsers);
 
 module.exports = router;
