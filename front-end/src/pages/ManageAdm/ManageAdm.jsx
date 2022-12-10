@@ -6,7 +6,7 @@ function ManageAdm() {
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('Vendedor');
+  const [role, setRole] = useState('seller');
   const [fetchError, setfetchError] = useState(null);
   const history = useHistory();
 
@@ -25,9 +25,13 @@ function ManageAdm() {
         email,
         password,
         role,
-        roleAdm: 'Administrator',
+        // roleAdm: 'Administrator',
       })
       .then(() => {
+        setUserName('');
+        setEmail('');
+        setPassword('');
+        setRole('seller');
         setfetchError(null);
       })
       .catch((err) => {
