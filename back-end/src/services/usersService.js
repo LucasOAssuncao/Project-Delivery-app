@@ -12,7 +12,7 @@ const usersService = {
     return user;
   },
 
-  getAll: async () => await User.findAll(),
+  getAll: async () => User.findAll(),
 
   getAllSeller: async () => {
     const users = await User.findAll(
@@ -44,7 +44,7 @@ const usersService = {
 
   delete: async (id) => {
     const userExists = await User.findByPk(id);
-    if (userExists === null) throw new errorGenerate('User does not exist', 404);
+    if (userExists === null) throw errorGenerate('User does not exist', 404);
 
     const isDelete = await User.destroy({ where: { id } });
     return isDelete;

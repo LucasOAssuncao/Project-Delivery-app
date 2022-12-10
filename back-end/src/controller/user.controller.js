@@ -35,12 +35,11 @@ const userController = {
     const { id } = req.params;
 
     try {
-      const isDelete  = await usersService.delete(id);
+      const isDelete = await usersService.delete(id);
       res.status(200).json(isDelete);
     } catch (err) {
-      next(err)
+      next(err);
     }
-
   },
 };
 
