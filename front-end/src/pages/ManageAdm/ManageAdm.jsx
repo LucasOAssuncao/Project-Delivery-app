@@ -13,6 +13,7 @@ function ManageAdm() {
   const tipos = ['administrador', 'customer', 'seller'];
   const nameMinLength = 12;
   const passwordMinLength = 6;
+  const number = 2000;
 
   const handleClick = async (e) => {
     const storage = localStorage.getItem('token');
@@ -25,7 +26,6 @@ function ManageAdm() {
         email,
         password,
         role,
-        // roleAdm: 'Administrator',
       })
       .then(() => {
         setUserName('');
@@ -35,6 +35,7 @@ function ManageAdm() {
         setfetchError(null);
       })
       .catch((err) => {
+        console.log(err);
         setfetchError(err.response.data.message);
       });
   };
@@ -48,6 +49,16 @@ function ManageAdm() {
       { option }
     </option>
   ));
+
+  setTimeout(() => {
+    if (fetchError) {
+      setUserName('');
+      setEmail('');
+      setPassword('');
+      setRole('seller');
+      setfetchError(null);
+    }
+  }, number);
 
   return (
     <div>
@@ -69,7 +80,11 @@ function ManageAdm() {
           </button>
         </nav>
       </header>
-
+      {fetchError && (
+        <span data-testid="admin_manage__element-invalid-register">
+          {fetchError}
+        </span>
+      )}
       <form onSubmit={ handleClick }>
 
         <label htmlFor="nameInput">
@@ -131,12 +146,6 @@ function ManageAdm() {
           CADASTRAR
         </button>
       </form>
-      {fetchError && (
-        <span data-testid="admin_manage__element-invalid-register">
-          {fetchError.message}
-        </span>
-      )}
-
     </div>
   );
 }
