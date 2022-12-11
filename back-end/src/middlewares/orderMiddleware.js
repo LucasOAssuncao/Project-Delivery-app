@@ -2,6 +2,8 @@ const orderMiddleware = (req, res, next) => {
   const { sellerId, totalPrice, address, products } = req.body;
 
   if (!sellerId || !totalPrice || !address || !products) {
+    console.log('SELLER ID', sellerId);
+    console.log(totalPrice, address, products);
     return res.status(401).json({ message: 'All order data must be inserted.' });
   }
   next();
