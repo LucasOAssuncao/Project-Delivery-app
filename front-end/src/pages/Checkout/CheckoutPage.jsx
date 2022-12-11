@@ -63,9 +63,11 @@ function Checkout() {
   };
 
   const removeItemFromCart = (index /* price, quantity */) => {
+    console.log('ALOOOU', products.reduce((acc, i) => i.price * i.quantity + acc, 0));
     const removeItem = products.filter((item, indice) => indice !== index);
     localStorage.setItem('cart', JSON.stringify(removeItem));
     // setTotalPrice(totalPrice - subTotalValue(price, quantity));
+    setTotalPrice(removeItem.reduce((acc, i) => i.price * i.quantity + acc, 0));
     setProducts(removeItem);
   };
 
