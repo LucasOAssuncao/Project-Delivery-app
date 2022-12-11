@@ -7,6 +7,7 @@ const {
   productRouter,
   orderRouter,
   sellerRouter,
+  adminRouter,
 } = require('../routes');
 
 const app = express();
@@ -18,6 +19,8 @@ app.use('/register', registerRouter);
 app.use('/products', productRouter);
 app.use('/sellers', sellerRouter);
 app.use('/order', orderRouter);
+app.use('/admin', adminRouter);
+
 app.use('/images', express.static('images'));
 
 app.use(errorMiddleware);
