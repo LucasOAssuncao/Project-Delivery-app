@@ -45,10 +45,13 @@ function Checkout() {
       address,
       products,
     };
+    const storage = localStorage.getItem('token');
+    axios.defaults.headers.common = { Authorization: storage };
     await axios
       .post('http://localhost:3001/order', data)
       .then((response) => {
-        console.log(response.data.id);
+        console.log(response.data.saleId);
+        history.push(`/customer/orders/${response.data.saleId}`);
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -227,7 +230,6 @@ function Checkout() {
           data-testid="customer_checkout__button-submit-order"
           onClick={ () => {
             onClickButtonFinalizeOrder();
-            history.push(`/customer/orders/${sellerId}`);
           } }
         >
           FINALIZAR PEDIDO
