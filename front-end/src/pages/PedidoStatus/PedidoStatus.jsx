@@ -1,7 +1,7 @@
 import React from 'react';
 import CardPedidoStatus from '../../components/cardPedidoStatus';
 
-function Register() {
+function PedidoStatus() {
   return (
     <div>
       <CardPedidoStatus />
@@ -9,4 +9,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default PedidoStatus;
