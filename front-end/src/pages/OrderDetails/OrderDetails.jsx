@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import NavBar from '../../components/Nav';
 
-function OrderDetails({ match: { params: { id } } }) {
+function OrderDetails() {
+  const { id } = useParams();
   const { location: { pathname } } = useHistory();
   const isCustomer = pathname.includes('customer');
 
@@ -34,10 +35,12 @@ function OrderDetails({ match: { params: { id } } }) {
     return resultMult.toFixed(2).toString().replace('.', ',');
   };
 
-  // const handleButton = async ({ target }) => {
-  //   const { value } = target;
-
-  // };
+  const handleButton = async ({ target }) => {
+    const { value } = target;
+    const storage = localStorage.getItem('token');
+    axios.defaults.headers.common = { Authorization: storage };
+    axios.patch(endpoint, { value }, { params: { id } });
+  };
 
   return (
     <div>
@@ -67,8 +70,8 @@ function OrderDetails({ match: { params: { id } } }) {
         {isCustomer ? (<button
           data-testid="customer_order_details__button-delivery-check"
           type="button"
-          // onClick={handleButton}
-          // value="Preparando"   ?????????????????????????????
+          onClick={handleButton}
+          value="Entregue"
           disabled={order.status === 'Entregue'}
         >
           Marcar Como Entregue
@@ -76,7 +79,7 @@ function OrderDetails({ match: { params: { id } } }) {
           <button
             data-testid="seller_order_details__button-preparing-check"
             type="button"
-            // onClick={handleButton}
+              onClick={handleButton}
             value="Preparando"
             disabled={order.status !== 'Pendente'}
           >
@@ -85,7 +88,7 @@ function OrderDetails({ match: { params: { id } } }) {
           <button
             data-testid="seller_order_details__button-dispatch-check"
             type="button"
-            // onClick={handleButton}
+              onClick={handleButton}
             value="Em Trânsito"
             disabled={order.status !== 'Preparando'}
           >
@@ -175,12 +178,12 @@ function OrderDetails({ match: { params: { id } } }) {
   );
 }
 
-OrderDetails.propTypes = {
-  match: propTypes.shape({
-    params: propTypes.shape({
-      id: propTypes.string,
-    }),
-  }).isRequired,
-};
+// OrderDetails.propTypes = {
+//   match: propTypes.shape({
+//     params: propTypes.shape({
+//       id: propTypes.string,
+//     }),
+//   }).isRequired,
+// };
 
 export default OrderDetails;
