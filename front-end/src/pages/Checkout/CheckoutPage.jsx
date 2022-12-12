@@ -7,7 +7,6 @@ function Checkout() {
   const [street, setStreet] = useState('');
   const [number, setNumber] = useState('');
   const [sellers, setSellers] = useState([]);
-  // const [seller, setSeller] = useState('');
   const [sellerId, setSellerId] = useState('');
   const [products, setProducts] = useState([]);
   const [totalPrice, setTotalPrice] = useState();
@@ -22,12 +21,6 @@ function Checkout() {
     axios.get('http://localhost:3001/sellers')
       .then((response) => {
         const { data } = response;
-        data.push({
-          id: 7,
-          name: 'Teste Teste',
-          email: 'teste@mail.com',
-          role: 'seller',
-        });
         setSellers(data);
       })
       .catch((err) => {
@@ -188,6 +181,9 @@ function Checkout() {
               setSellerId(event.target.value);
             } }
           >
+            <option>
+              Selecione um vendedor
+            </option>
             {sellers.map((option) => (
               <option
                 key={ option.name }
@@ -206,7 +202,10 @@ function Checkout() {
             name="street"
             data-testid="customer_checkout__input-address"
             value={ street }
-            onChange={ ({ target: { value } }) => { setStreet(value); } }
+            onChange={ ({ target: { value } }) => {
+              setStreet(value);
+              setAddress({ street: value, number });
+            } }
           />
         </label>
 

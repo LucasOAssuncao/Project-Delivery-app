@@ -11,7 +11,6 @@ const saleService = {
     const t = await sequelize.transaction();
     try {
       const { street, number } = address;
-      console.log(street, 'RUUAAAAAAAA');
       const sale = await Sale.create({
         userId,
         sellerId,

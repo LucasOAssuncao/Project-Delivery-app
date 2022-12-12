@@ -2,6 +2,7 @@ const authenticateToken = require('../utils/authenticateToken');
 
 const authMiddleware = async (req, res, next) => {
     const { authorization } = req.headers;
+    console.log('TOKEN', authorization);
 
     if (!authorization) return res.status(401).json({ message: 'Token not found' });
 
