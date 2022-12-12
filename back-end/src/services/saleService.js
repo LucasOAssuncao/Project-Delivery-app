@@ -40,6 +40,12 @@ const saleService = {
     return sale;
   },
 
+  getByIdUser: async (id) => {
+    const sale = await Sale.findAll({ where: { userId: id } });
+    if (sale === null) throw errorGenerate('Sales does not exist', 404);
+    return sale;
+  },
+
   editStatusSale: async (status, id) => {
     const sale = await Sale.findOne({ where: { id } });
 

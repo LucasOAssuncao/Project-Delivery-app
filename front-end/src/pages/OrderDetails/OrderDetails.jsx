@@ -18,7 +18,7 @@ function OrderDetails() {
     axios.defaults.headers.common = { Authorization: storage };
 
     const getOrder = async () => {
-      const response = await axios.get(`localhost:3000/customer/orders/${id}`);
+      const response = await axios.get(`http://localhost:3001/order/${id}`);
       setOrder(response.data);
     };
     getOrder();
