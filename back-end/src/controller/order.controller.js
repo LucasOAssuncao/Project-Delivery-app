@@ -7,7 +7,7 @@ const orderController = {
     const { sellerId, totalPrice, address, products } = req.body;
     const { id } = req.user;
 
-    await saleService.create({
+    const { id: saleId } = await saleService.create({
       userId: id,
       sellerId,
       totalPrice,
@@ -15,7 +15,7 @@ const orderController = {
       products,
     });
 
-    return res.status(200).json({ message: 'Order created!' });
+    return res.status(201).json({ message: 'Order created!', saleId });
   },
 
   getDetailedOrder: async (req, res, _next) => {

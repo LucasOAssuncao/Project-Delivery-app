@@ -26,11 +26,11 @@ function LoginForm() {
       .then((response) => {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('user', JSON.stringify(response.data));
+        console.log(response.data.role);
         if (response.data.role === 'seller') history.push('/seller/orders');
         if (response.data.role === 'administrator') {
-          history.push('/administrator/management');
-        }
-        history.push('/customer/products');
+          history.push('/admin/manage');
+        } else history.push('/customer/products');
       })
       .catch((err) => {
         console.log(err.response.data);

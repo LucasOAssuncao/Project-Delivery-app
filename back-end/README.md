@@ -27,6 +27,40 @@ Para registo de novos usuários.
         "password": "123123"
         }
 
+GET localhost:3001/admin
+Para buscar todos os usuários.
+
+        [
+        {
+            "id": 1,
+            "name": "Delivery App Admin",
+            "email": "adm@deliveryapp.com",
+            "password": "a4c86edecc5aee06eff8fdeda69e0d04",
+            "role": "administrator"
+        },
+        {
+            "id": 2,
+            "name": "Fulana Pereira",
+            "email": "fulana@deliveryapp.com",
+            "password": "3c28d2b0881bf46457a853e0b07531c6",
+            "role": "seller"
+        },
+        ]
+
+POST localhost:3001/admin/register
+Para o administrador cadastrar um novo usuário.
+
+- necessário enviar um objeto como o exemplo:
+
+    {
+        "name": "Fernanda dsfdfdfd",
+        "email": "userdd1@user.com",
+        "password": "123123"
+    }
+
+DELETE localhost:3001/admin/:id
+Para deletar um usuário.
+
 GET localhost:3001/products
 Para buscar todos os produtos.
 
