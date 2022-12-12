@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useHistory, useParams } from 'react-router-dom';
 import NavBar from '../../components/Nav';
 
@@ -41,7 +42,14 @@ function OrderDetails() {
     const { value } = target;
     const storage = localStorage.getItem('token');
     axios.defaults.headers.common = { Authorization: storage };
-    axios.patch(endpoint, { value }, { params: { id } });
+    axios.patch(`http://localhost:3001/order/${id}`, { status: value }, { params: { id } });
+  };
+
+  const dataFormatada = (dataApi) => {
+    const data = new Date(dataApi);
+    const dataF = `${((data
+      .getDate()))}/${((data.getMonth() + 1))}/${data.getFullYear()}`;
+    return dataF;
   };
 
   return (
@@ -49,10 +57,13 @@ function OrderDetails() {
       <NavBar />
       <p>Detalhe do Pedido</p>
       <div>
-        <span data-testid={
-          isCustomer ?
-            'seller_order_details__element-order-details-label-order-id'
-            : 'customer_order_details__element-order-details-label-order-id'}>
+        <span
+          data-testid={
+            isCustomer
+              ? 'seller_order_details__element-order-details-label-order-id'
+              : 'customer_order_details__element-order-details-label-order-id'
+          }
+        >
           {`Pedido ${order.id}`}
         </span>
         {isCustomer && (
@@ -66,7 +77,7 @@ function OrderDetails() {
           </span>
         )}
         <span data-testid="seller_order_details__element-order-details-label-order-date">
-          {order.saleDate}
+          {dataFormatada(order.saleDate)}
         </span>
         <span
           data-testid="seller_order_details__element-order-details-label-delivery-status"
@@ -179,7 +190,7 @@ function OrderDetails() {
               : 'seller_order_details__element-order-total-price'
           }
         >
-          {`Total: R$ ${priceValue(totalPrice)}`}
+          {`Total: R$ ${priceValue(localStorage.getItem('totalPrice'))}`}
         </h2>
       </div>
     </div>

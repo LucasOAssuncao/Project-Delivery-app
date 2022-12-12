@@ -71,7 +71,7 @@ function ManageAdm() {
             <p>Admin</p>
           </div>
           <Link
-            to="/"
+            to="/customer/products"
             data-testid="customer_products__element-navbar-link-logout"
           >
             Sair
