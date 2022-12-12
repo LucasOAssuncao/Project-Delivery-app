@@ -49,7 +49,10 @@ function OrderDetails() {
       <NavBar />
       <p>Detalhe do Pedido</p>
       <div>
-        <span data-testid="seller_order_details__element-order-details-label-order-id">
+        <span data-testid={
+          isCustomer ?
+            'seller_order_details__element-order-details-label-order-id'
+            : 'customer_order_details__element-order-details-label-order-id'}>
           {`Pedido ${order.id}`}
         </span>
         {isCustomer && (
