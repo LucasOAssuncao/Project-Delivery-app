@@ -4,7 +4,9 @@ import NavBar from '../../components/Nav';
 
 function OrderDetails() {
   const { id } = useParams();
-  const { location: { pathname } } = useHistory();
+  const {
+    location: { pathname },
+  } = useHistory();
   const isCustomer = pathname.includes('customer');
 
   const [order, setOrder] = useState([]);
@@ -50,15 +52,16 @@ function OrderDetails() {
         <span data-testid="seller_order_details__element-order-details-label-order-id">
           {`Pedido ${order.id}`}
         </span>
-        {isCustomer
-          && <span
+        {isCustomer && (
+          <span
             data-testid="customer_order_details__element-order-details-label-seller-name"
           >
             P. Vend:
             {' '}
             {order.sellerId}
             {/* pegar nome vendedor */}
-          </span>}
+          </span>
+        )}
         <span data-testid="seller_order_details__element-order-details-label-order-date">
           {order.saleDate}
         </span>
@@ -67,113 +70,115 @@ function OrderDetails() {
         >
           {order.status}
         </span>
-        {isCustomer ? (<button
-          data-testid="customer_order_details__button-delivery-check"
-          type="button"
-          onClick={handleButton}
-          value="Entregue"
-          disabled={order.status === 'Entregue'}
-        >
-          Marcar Como Entregue
-        </button>) : (<>
+        {isCustomer ? (
           <button
-            data-testid="seller_order_details__button-preparing-check"
+            data-testid="customer_order_details__button-delivery-check"
             type="button"
-              onClick={handleButton}
-            value="Preparando"
-            disabled={order.status !== 'Pendente'}
+            onClick={ handleButton }
+            value="Entregue"
+            disabled={ order.status === 'Entregue' }
           >
-            Preparar Pedido
+            Marcar Como Entregue
           </button>
-          <button
-            data-testid="seller_order_details__button-dispatch-check"
-            type="button"
-              onClick={handleButton}
-            value="Em Trânsito"
-            disabled={order.status !== 'Preparando'}
-          >
-            Saiu para entrega
-          </button>
-        </>)}
+        ) : (
+          <>
+            <button
+              data-testid="seller_order_details__button-preparing-check"
+              type="button"
+              onClick={ handleButton }
+              value="Preparando"
+              disabled={ order.status !== 'Pendente' }
+            >
+              Preparar Pedido
+            </button>
+            <button
+              data-testid="seller_order_details__button-dispatch-check"
+              type="button"
+              onClick={ handleButton }
+              value="Em Trânsito"
+              disabled={ order.status !== 'Preparando' }
+            >
+              Saiu para entrega
+            </button>
+          </>
+        )}
       </div>
       <table>
         <thead>
           <tr>
-            <th>
-              Item
-            </th>
-            <th>
-              Descrição
-            </th>
-            <th>
-              Quantidade
-            </th>
-            <th>
-              Valor Unitário
-            </th>
-            <th>
-              Sub-total
-            </th>
-            <th>
-              Remover Item
-            </th>
+            <th>Item</th>
+            <th>Descrição</th>
+            <th>Quantidade</th>
+            <th>Valor Unitário</th>
+            <th>Sub-total</th>
+            <th>Remover Item</th>
           </tr>
         </thead>
 
         <tbody>
-          {
-            products.map((product, index) => (
-              <tr key={product.name}>
-                <td
-                  data-testid={isCustomer ?
-                    `customer_checkout__element-order-table-item-number-${index}` : `seller_order_details__element-order-table-item-number-${index}`
-                  }
-                >
-                  {`${index + 1}`}
-                </td>
-                <td
-                  data-testid={isCustomer ?
-                    `customer_checkout__element-order-table-name-${index}` : `seller_order_details__element-order-table-name-${index}`
-                  }
-                >
-                  {product.name}
-                </td>
-                <td
-                  data-testid={isCustomer ?
-                    `customer_checkout__element-order-table-quantity-${index}` : `seller_order_details__element-order-table-quantity-${index}`
-                  }
-                >
-                  {product.quantity}
-                </td>
-                <td
-                  data-testid={isCustomer ?
-                    `customer_checkout__element-order-table-unit-price-${index}` : `seller_order_details__element-order-table-unit-price-${index}`
-                  }
-                >
-                  {`R$ ${priceValue(product.price)}`}
-                </td>
-                <td
-                  data-testid={isCustomer ?
-                    `customer_checkout__element-order-table-sub-total-${index}` : `seller_order_details__element-order-table-sub-total-${index}`
-                  }
-                >
-                  {`R$ ${subTotalValue(product.price, product.quantity)}`}
-                </td>
-              </tr>
-            ))
-          }
+          {products.map((product, index) => (
+            <tr key={ product.name }>
+              <td
+                data-testid={
+                  isCustomer
+                    ? `customer_checkout__element-order-table-item-number-${index}`
+                    : `seller_order_details__element-order-table-item-number-${index}`
+                }
+              >
+                {`${index + 1}`}
+              </td>
+              <td
+                data-testid={
+                  isCustomer
+                    ? `customer_checkout__element-order-table-name-${index}`
+                    : `seller_order_details__element-order-table-name-${index}`
+                }
+              >
+                {product.name}
+              </td>
+              <td
+                data-testid={
+                  isCustomer
+                    ? `customer_checkout__element-order-table-quantity-${index}`
+                    : `seller_order_details__element-order-table-quantity-${index}`
+                }
+              >
+                {product.quantity}
+              </td>
+              <td
+                data-testid={
+                  isCustomer
+                    ? `customer_checkout__element-order-table-unit-price-${index}`
+                    : `seller_order_details__element-order-table-unit-price-${index}`
+                }
+              >
+                {`R$ ${priceValue(product.price)}`}
+              </td>
+              <td
+                data-testid={
+                  isCustomer
+                    ? `customer_checkout__element-order-table-sub-total-${index}`
+                    : `seller_order_details__element-order-table-sub-total-${index}`
+                }
+              >
+                {`R$ ${subTotalValue(product.price, product.quantity)}`}
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
 
       <div>
         <h2
-          data-testid={isCustomer ? "customer_checkout__element-order-total-price" : "seller_order_details__element-order-total-price"}
+          data-testid={
+            isCustomer
+              ? 'customer_checkout__element-order-total-price'
+              : 'seller_order_details__element-order-total-price'
+          }
         >
           {`Total: R$ ${priceValue(totalPrice)}`}
-
         </h2>
       </div>
-
     </div>
   );
 }

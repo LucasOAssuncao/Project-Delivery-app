@@ -10,19 +10,19 @@ const saleService = {
   create: async ({ userId, sellerId, totalPrice, address, products }) => {
     const t = await sequelize.transaction();
     try {
-      const { st, nb } = address;
+      const { street, number } = address;
       const sale = await Sale.create({
         userId,
         sellerId,
         totalPrice,
-        deliveryAddress: st,
-        deliveryNumber: nb,
+        deliveryAddress: street,
+        deliveryNumber: number,
         status: 'Pendente',
       }); 
       const { id: saleId } = sale;
 
-      await products.map(async ({ productId, quantity }) => {
-        await SaleProduct.create({ saleId, productId, quantity });
+      await products.map(async ({ id, quantity }) => {
+        await SaleProduct.create({ saleId, productId: id, quantity });
       });
 
       await t.commit(); return sale;

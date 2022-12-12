@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useHistory, useParams } from 'react-router';
+import { useHistory } from 'react-router';
 import NavBar from '../../components/Nav';
 
 function Checkout() {
   const [street, setStreet] = useState('');
   const [number, setNumber] = useState('');
   const [sellers, setSellers] = useState([]);
-  const [seller, setSeller] = useState('');
   const [sellerId, setSellerId] = useState('');
   const [products, setProducts] = useState([]);
   const [totalPrice, setTotalPrice] = useState();
   const [user, setUser] = useState();
+  const [address, setAddress] = useState({});
 
-  const adress = { street, number };
+  // const adress = { street, number };
   const history = useHistory();
-  const { id } = useParams();
+  // const { id } = useParams();
 
   useEffect(() => {
     axios.get('http://localhost:3001/sellers')
@@ -38,15 +38,21 @@ function Checkout() {
   }, []);
 
   const onClickButtonFinalizeOrder = async () => {
+    const data = {
+      user: user.id,
+      sellerId,
+      totalPrice,
+      address,
+      products,
+    };
+    const storage = localStorage.getItem('token');
+    axios.defaults.headers.common = { Authorization: storage };
     await axios
-      .post('http://localhost:3001/order', {
-        user: user.id,
-        sellerId,
-        totalPrice,
-        adress,
-        products,
+      .post('http://localhost:3001/order', data)
+      .then((response) => {
+        console.log(response.data.saleId);
+        history.push(`/customer/orders/${response.data.saleId}`);
       })
-      .then((response) => response.data.id)
       .catch((err) => {
         console.log(err.response.data);
       });
@@ -65,7 +71,7 @@ function Checkout() {
   const removeItemFromCart = (index /* price, quantity */) => {
     const removeItem = products.filter((item, indice) => indice !== index);
     localStorage.setItem('cart', JSON.stringify(removeItem));
-    // setTotalPrice(totalPrice - subTotalValue(price, quantity));
+    setTotalPrice(removeItem.reduce((acc, i) => i.price * i.quantity + acc, 0));
     setProducts(removeItem);
   };
 
@@ -173,14 +179,18 @@ function Checkout() {
           </h3>
           <select
             data-testid="customer_checkout__select-seller"
-            value={ seller }
-            onChange={ (event) => setSeller(event.target.value) }
+            value={ sellerId }
+            onChange={ (event) => {
+              setSellerId(event.target.value);
+            } }
           >
+            <option>
+              Selecione um vendedor
+            </option>
             {sellers.map((option) => (
               <option
                 key={ option.name }
-                value={ option.name }
-                onChange={ () => setSellerId(option.id) }
+                value={ option.id }
               >
                 {option.name}
               </option>
@@ -195,7 +205,10 @@ function Checkout() {
             name="street"
             data-testid="customer_checkout__input-address"
             value={ street }
-            onChange={ ({ target: { value } }) => { setStreet(value); } }
+            onChange={ ({ target: { value } }) => {
+              setStreet(value);
+              setAddress({ street: value, number });
+            } }
           />
         </label>
 
@@ -206,22 +219,22 @@ function Checkout() {
             name="number"
             data-testid="customer_checkout__input-address-number"
             value={ number }
-            onChange={ ({ target: { value } }) => { setNumber(value); } }
+            onChange={ ({ target: { value } }) => {
+              setNumber(value);
+              setAddress({ street, number: value });
+            } }
           />
         </label>
-
         <button
           type="button"
           data-testid="customer_checkout__button-submit-order"
           onClick={ () => {
             onClickButtonFinalizeOrder();
-            history.push(`/customer/orders/${id}`);
           } }
         >
           FINALIZAR PEDIDO
         </button>
       </div>
-
     </div>
   );
 }
