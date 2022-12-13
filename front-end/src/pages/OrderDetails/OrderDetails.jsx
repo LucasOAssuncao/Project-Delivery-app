@@ -14,19 +14,19 @@ function OrderDetails() {
   const [products, setProducts] = useState([]);
   console.log(order);
 
-  useEffect(() => {
+  const getOrder = async () => {
     const storage = localStorage.getItem('token');
     axios.defaults.headers.common = { Authorization: storage };
+    const response = await axios.get(`http://localhost:3001/order/${id}`);
+    setOrder(response.data);
+  };
 
-    const getOrder = async () => {
-      const response = await axios.get(`http://localhost:3001/order/${id}`);
-      setOrder(response.data);
-    };
+  useEffect(() => {
     getOrder();
 
     const productsArr = JSON.parse(localStorage.getItem('cart'));
     setProducts(productsArr);
-  }, [id]);
+  }, [order]);
 
   const priceValue = (price) => {
     const priceNumber = Number(price);

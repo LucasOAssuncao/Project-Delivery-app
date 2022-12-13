@@ -14,7 +14,7 @@ function App() {
 
     <Switch>
       <Redirect exact from="/" to="/login" />
-      <Route path="/login" component={ LoginPage } />
+      <Route exact path="/login" component={ LoginPage } />
       <Route path="/register" component={ Register } />
       <Route path="/customer/orders/:id" component={ OrderDetails } />
       <Route path="/customer/orders" component={ PedidoStatus } />
