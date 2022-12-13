@@ -15,7 +15,6 @@ function Checkout() {
 
   // const adress = { street, number };
   const history = useHistory();
-  // const { id } = useParams();
 
   useEffect(() => {
     axios.get('http://localhost:3001/sellers')
