@@ -34,7 +34,6 @@ const usersService = {
   },
 
   getById: async (id) => {
-
     const user = await User.findByPk(id, {
       attributes: ['id', 'name', 'email', 'role'],
     });

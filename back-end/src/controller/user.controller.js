@@ -28,7 +28,6 @@ const userController = {
     } catch (err) {
       throw errorGenerate('User does not exist', 404);
     }
-
   }, 
 
   getAllUsers: async (_req, res) => {
