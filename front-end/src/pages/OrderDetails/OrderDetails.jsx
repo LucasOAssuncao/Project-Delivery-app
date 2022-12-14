@@ -5,6 +5,10 @@ import NavBar from '../../components/Nav';
 
 function OrderDetails() {
   const { id } = useParams();
+  const dataTest1 = 'customer_order_details__element-order-details-label-delivery-status';
+  const dataTest2 = `customer_checkout__element-order-table-item-number-${index}`;
+  const dataTest3 = `customer_checkout__element-order-table-unit-price-${index}`;
+  const dataTest4 = `customer_checkout__element-order-table-sub-total-${index}`;
   // const {
   //   location: { pathname },
   // } = useHistory();
@@ -76,16 +80,16 @@ function OrderDetails() {
           {dataFormatada(order.saleDate)}
         </span>
         <span
-          data-testid="customer_order_details__element-order-details-label-delivery-status"
+          data-testid={ dataTest1 }
         >
           {order.status}
         </span>
         <button
           data-testid="customer_order_details__button-delivery-check"
           type="button"
-          onClick={handleButton}
+          onClick={ handleButton }
           value="Entregue"
-          disabled={order.status === 'Entregue'}
+          disabled={ order.status === 'Entregue' }
         >
           Marcar Como Entregue
         </button>
@@ -128,27 +132,27 @@ function OrderDetails() {
           {products.map((product, index) => (
             <tr key={ product.name }>
               <td
-                data-testid={`customer_checkout__element-order-table-item-number-${index}`}
+                data-testid={ dataTest2 }
               >
                 {`${index + 1}`}
               </td>
               <td
-                data-testid={`customer_checkout__element-order-table-name-${index}`}
+                data-testid={ `customer_checkout__element-order-table-name-${index}` }
               >
                 {product.name}
               </td>
               <td
-                data-testid={`customer_checkout__element-order-table-quantity-${index}`}
+                data-testid={ `customer_checkout__element-order-table-quantity-${index}` }
               >
                 {product.quantity}
               </td>
               <td
-                data-testid={`customer_checkout__element-order-table-unit-price-${index}`}
+                data-testid={ dataTest3 }
               >
                 {`R$ ${priceValue(product.price)}`}
               </td>
               <td
-                data-testid={`customer_checkout__element-order-table-sub-total-${index}`}
+                data-testid={ dataTest4 }
               >
                 {`R$ ${subTotalValue(product.price, product.quantity)}`}
               </td>
