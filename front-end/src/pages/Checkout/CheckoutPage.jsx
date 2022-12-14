@@ -7,19 +7,19 @@ function Checkout() {
   const [street, setStreet] = useState('');
   const [number, setNumber] = useState('');
   const [sellers, setSellers] = useState([]);
-  const [sellerId, setSellerId] = useState('');
+  const [sellerId, setSellerId] = useState({});
   const [products, setProducts] = useState([]);
   const [totalPrice, setTotalPrice] = useState();
   const [user, setUser] = useState();
   const [address, setAddress] = useState({});
 
-  // const adress = { street, number };
   const history = useHistory();
 
   useEffect(() => {
     axios.get('http://localhost:3001/sellers')
       .then((response) => {
         const { data } = response;
+        console.log(data);
         setSellers(data);
       })
       .catch((err) => {
@@ -180,7 +180,7 @@ function Checkout() {
             data-testid="customer_checkout__select-seller"
             value={ sellerId }
             onChange={ (event) => {
-              setSellerId(event.target.value);
+              setSellerId(event.target.value, event.target.name);
             } }
           >
             <option>

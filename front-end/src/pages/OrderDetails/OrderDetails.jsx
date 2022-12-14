@@ -11,23 +11,22 @@ function OrderDetails() {
   // } = useHistory();
   // const isCustomer = pathname.includes('customer');
 
-  const [order, setOrder] = useState([]);
+  const [order, setOrder] = useState({});
   const [products, setProducts] = useState([]);
-  console.log(order);
-
-  const getOrder = async () => {
-    const storage = localStorage.getItem('token');
-    axios.defaults.headers.common = { Authorization: storage };
-    const response = await axios.get(`http://localhost:3001/order/${id}`);
-    setOrder(response.data);
-  };
 
   useEffect(() => {
+    const getOrder = async () => {
+      const storage = localStorage.getItem('token');
+      axios.defaults.headers.common = { Authorization: storage };
+      const response = await axios.get(`http://localhost:3001/order/${id}`);
+      console.log(response.data);
+      setOrder(response.data);
+    };
     getOrder();
 
     const productsArr = JSON.parse(localStorage.getItem('cart'));
     setProducts(productsArr);
-  }, [order]);
+  }, []);
 
   const priceValue = (price) => {
     const priceNumber = Number(price);
@@ -64,62 +63,38 @@ function OrderDetails() {
     <div>
       <NavBar />
       <p>Detalhe do Pedido</p>
-      <div>
-        <span
-          data-testid="customer_order_details__element-order-details-label-order-id"
-        >
-          {`Pedido ${order.id}`}
-        </span>
-        <span
-          data-testid="customer_order_details__element-order-details-label-seller-name"
-        >
-          P. Vend:
-          {' '}
-          {order.sellerId}
-          {/* pegar nome vendedor */}
-        </span>
-        <span
-          data-testid="customer_order_details__element-order-details-label-order-date"
-        >
-          {dataFormatada(order.saleDate)}
-        </span>
-        <span
-          data-testid={ dataTest1 }
-        >
-          {order.status}
-        </span>
-        <button
-          data-testid="customer_order_details__button-delivery-check"
-          type="button"
-          onClick={ handleButton }
-          value="Entregue"
-          disabled={ order.status === 'Entregue' }
-        >
-          Marcar Como Entregue
-        </button>
-        {/* // ) : (
-        //   <>
-        //     <button */}
-        {/* //       data-testid="seller_order_details__button-preparing-check"
-        //       type="button"
-        //       onClick={ handleButton }
-        //       value="Preparando"
-        //       disabled={ order.status !== 'Pendente' }
-        //     >
-        //       Preparar Pedido
-        //     </button>
-        //     <button */}
-        {/* //       data-testid="seller_order_details__button-dispatch-check"
-        //       type="button"
-        //       onClick={ handleButton }
-        //       value="Em Trânsito"
-        //       disabled={ order.status !== 'Preparando' }
-        //     >
-        //       Saiu para entrega
-        //     </button>
-        //   </>
-        // )} */}
-      </div>
+      { order.sale && (
+        <div>
+          <span
+            data-testid="customer_order_details__element-order-details-label-order-id"
+          >
+            {`Pedido ${order.sale.id}`}
+          </span>
+          <span
+            data-testid="customer_order_details__element-order-details-label-seller-name"
+          >
+            {order.seller.name}
+          </span>
+          <span
+            data-testid="customer_order_details__element-order-details-label-order-date"
+          >
+            {dataFormatada(order.sale.saleDate)}
+          </span>
+          <span
+            data-testid={ dataTest1 }
+          >
+            {order.sale.status}
+          </span>
+          <button
+            data-testid="customer_order_details__button-delivery-check"
+            type="button"
+            onClick={ handleButton }
+            value="Entregue"
+            disabled={ order.sale.status !== 'Em trânsito' }
+          >
+            Marcar Como Entregue
+          </button>
+        </div>)}
       <table>
         <thead>
           <tr>
