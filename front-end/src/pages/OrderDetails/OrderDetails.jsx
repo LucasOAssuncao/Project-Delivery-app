@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import NavBar from '../../components/Nav';
 
 function OrderDetails() {
   const { id } = useParams();
-  const {
-    location: { pathname },
-  } = useHistory();
-  const isCustomer = pathname.includes('customer');
+  // const {
+  //   location: { pathname },
+  // } = useHistory();
+  // const isCustomer = pathname.includes('customer');
 
   const [order, setOrder] = useState([]);
   const [products, setProducts] = useState([]);
@@ -58,64 +58,59 @@ function OrderDetails() {
       <p>Detalhe do Pedido</p>
       <div>
         <span
-          data-testid={
-            isCustomer
-              ? 'seller_order_details__element-order-details-label-order-id'
-              : 'customer_order_details__element-order-details-label-order-id'
-          }
+          data-testid="customer_order_details__element-order-details-label-order-id"
         >
           {`Pedido ${order.id}`}
         </span>
-        {isCustomer && (
-          <span
-            data-testid="customer_order_details__element-order-details-label-seller-name"
-          >
-            P. Vend:
-            {' '}
-            {order.sellerId}
-            {/* pegar nome vendedor */}
-          </span>
-        )}
-        <span data-testid="seller_order_details__element-order-details-label-order-date">
+        <span
+          data-testid="customer_order_details__element-order-details-label-seller-name"
+        >
+          P. Vend:
+          {' '}
+          {order.sellerId}
+          {/* pegar nome vendedor */}
+        </span>
+        <span
+          data-testid="customer_order_details__element-order-details-label-order-date"
+        >
           {dataFormatada(order.saleDate)}
         </span>
         <span
-          data-testid="seller_order_details__element-order-details-label-delivery-status"
+          data-testid="customer_order_details__element-order-details-label-delivery-status"
         >
           {order.status}
         </span>
-        {isCustomer ? (
-          <button
-            data-testid="customer_order_details__button-delivery-check"
-            type="button"
-            onClick={ handleButton }
-            value="Entregue"
-            disabled={ order.status === 'Entregue' }
-          >
-            Marcar Como Entregue
-          </button>
-        ) : (
-          <>
-            <button
-              data-testid="seller_order_details__button-preparing-check"
-              type="button"
-              onClick={ handleButton }
-              value="Preparando"
-              disabled={ order.status !== 'Pendente' }
-            >
-              Preparar Pedido
-            </button>
-            <button
-              data-testid="seller_order_details__button-dispatch-check"
-              type="button"
-              onClick={ handleButton }
-              value="Em Trânsito"
-              disabled={ order.status !== 'Preparando' }
-            >
-              Saiu para entrega
-            </button>
-          </>
-        )}
+        <button
+          data-testid="customer_order_details__button-delivery-check"
+          type="button"
+          onClick={handleButton}
+          value="Entregue"
+          disabled={order.status === 'Entregue'}
+        >
+          Marcar Como Entregue
+        </button>
+        {/* // ) : (
+        //   <>
+        //     <button */}
+        {/* //       data-testid="seller_order_details__button-preparing-check"
+        //       type="button"
+        //       onClick={ handleButton }
+        //       value="Preparando"
+        //       disabled={ order.status !== 'Pendente' }
+        //     >
+        //       Preparar Pedido
+        //     </button>
+        //     <button */}
+        {/* //       data-testid="seller_order_details__button-dispatch-check"
+        //       type="button"
+        //       onClick={ handleButton }
+        //       value="Em Trânsito"
+        //       disabled={ order.status !== 'Preparando' }
+        //     >
+        //       Saiu para entrega
+        //     </button>
+        //   </>
+        // )} */}
       </div>
       <table>
         <thead>
@@ -133,47 +128,27 @@ function OrderDetails() {
           {products.map((product, index) => (
             <tr key={ product.name }>
               <td
-                data-testid={
-                  isCustomer
-                    ? `customer_checkout__element-order-table-item-number-${index}`
-                    : `seller_order_details__element-order-table-item-number-${index}`
-                }
+                data-testid={`customer_checkout__element-order-table-item-number-${index}`}
               >
                 {`${index + 1}`}
               </td>
               <td
-                data-testid={
-                  isCustomer
-                    ? `customer_checkout__element-order-table-name-${index}`
-                    : `seller_order_details__element-order-table-name-${index}`
-                }
+                data-testid={`customer_checkout__element-order-table-name-${index}`}
               >
                 {product.name}
               </td>
               <td
-                data-testid={
-                  isCustomer
-                    ? `customer_checkout__element-order-table-quantity-${index}`
-                    : `seller_order_details__element-order-table-quantity-${index}`
-                }
+                data-testid={`customer_checkout__element-order-table-quantity-${index}`}
               >
                 {product.quantity}
               </td>
               <td
-                data-testid={
-                  isCustomer
-                    ? `customer_checkout__element-order-table-unit-price-${index}`
-                    : `seller_order_details__element-order-table-unit-price-${index}`
-                }
+                data-testid={`customer_checkout__element-order-table-unit-price-${index}`}
               >
                 {`R$ ${priceValue(product.price)}`}
               </td>
               <td
-                data-testid={
-                  isCustomer
-                    ? `customer_checkout__element-order-table-sub-total-${index}`
-                    : `seller_order_details__element-order-table-sub-total-${index}`
-                }
+                data-testid={`customer_checkout__element-order-table-sub-total-${index}`}
               >
                 {`R$ ${subTotalValue(product.price, product.quantity)}`}
               </td>
@@ -184,11 +159,7 @@ function OrderDetails() {
 
       <div>
         <h2
-          data-testid={
-            isCustomer
-              ? 'customer_checkout__element-order-total-price'
-              : 'seller_order_details__element-order-total-price'
-          }
+          data-testid="customer_checkout__element-order-total-price"
         >
           {`Total: R$ ${priceValue(localStorage.getItem('totalPrice'))}`}
         </h2>
