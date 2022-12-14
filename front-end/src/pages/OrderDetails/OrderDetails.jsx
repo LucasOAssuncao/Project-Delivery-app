@@ -5,10 +5,7 @@ import NavBar from '../../components/Nav';
 
 function OrderDetails() {
   const { id } = useParams();
-  const dataTest1 = 'customer_order_details__element-order-details-label-delivery-status';
-  const dataTest2 = `customer_checkout__element-order-table-item-number-${index}`;
-  const dataTest3 = `customer_checkout__element-order-table-unit-price-${index}`;
-  const dataTest4 = `customer_checkout__element-order-table-sub-total-${index}`;
+
   // const {
   //   location: { pathname },
   // } = useHistory();
@@ -55,6 +52,13 @@ function OrderDetails() {
       .getDate()))}/${((data.getMonth() + 1))}/${data.getFullYear()}`;
     return dataF;
   };
+
+  const dataTest1 = 'customer_order_details__element-order-details-label-delivery-status';
+  const dataTest2 = 'customer_order_details__element-order-table-item-number-';
+  const dataTest3 = 'customer_order_details__element-order-table-unit-price-';
+  const dataTest4 = 'customer_order_details__element-order-table-sub-total-';
+  const dataTest5 = 'customer_order_details__element-order-table-name-';
+  const dataTest6 = 'customer_order_details__element-order-table-quantity-';
 
   return (
     <div>
@@ -132,27 +136,27 @@ function OrderDetails() {
           {products.map((product, index) => (
             <tr key={ product.name }>
               <td
-                data-testid={ dataTest2 }
+                data-testid={ dataTest2 + index }
               >
                 {`${index + 1}`}
               </td>
               <td
-                data-testid={ `customer_checkout__element-order-table-name-${index}` }
+                data-testid={ dataTest5 + index }
               >
                 {product.name}
               </td>
               <td
-                data-testid={ `customer_checkout__element-order-table-quantity-${index}` }
+                data-testid={ dataTest6 + index }
               >
                 {product.quantity}
               </td>
               <td
-                data-testid={ dataTest3 }
+                data-testid={ dataTest3 + index }
               >
                 {`R$ ${priceValue(product.price)}`}
               </td>
               <td
-                data-testid={ dataTest4 }
+                data-testid={ dataTest4 + index }
               >
                 {`R$ ${subTotalValue(product.price, product.quantity)}`}
               </td>
@@ -163,7 +167,7 @@ function OrderDetails() {
 
       <div>
         <h2
-          data-testid="customer_checkout__element-order-total-price"
+          data-testid="customer_order_details__element-order-total-price"
         >
           {`Total: R$ ${priceValue(localStorage.getItem('totalPrice'))}`}
         </h2>
