@@ -21,8 +21,8 @@ function FormRegister() {
         role: 'customer',
       })
       .then((response) => {
-        localStorage.setItem('user', JSON.stringify(response.data));
         localStorage.setItem('token', response.data.token);
+        localStorage.setItem('user', JSON.stringify(response.data));
         setfetchError(null);
         history.push('/customer/products');
       })

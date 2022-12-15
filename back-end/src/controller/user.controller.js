@@ -11,7 +11,7 @@ const userController = {
     const { id } = await usersService.create({ name, email, cryptoPassword, role });
     const token = createToken({ email, id, name, role });
 
-    res.status(201).json({ name, email, role, token });
+    res.status(201).json({ name, email, role, id, token });
   },
 
   getUser: async (req, res) => {
