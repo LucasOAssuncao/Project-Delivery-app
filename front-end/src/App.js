@@ -17,12 +17,12 @@ function App() {
       <Route exact path="/login" component={ LoginPage } />
       <Route path="/register" component={ Register } />
       <Route path="/customer/orders/:id" component={ OrderDetails } />
-      <Route path="/seller/orders/:id" component={OrderDetails} />
+      <Route path="/seller/orders/:id" component={ OrderDetails } />
       <Route path="/customer/orders" component={ PedidoStatus } />
-      <Route path="/seller/orders" component={PedidoStatus} />
+      <Route path="/seller/orders" component={ PedidoStatus } />
       <Route path="/customer/products" component={ CustomerProducts } />
       <Route path="/customer/checkout" component={ Checkout } />
-      <Route path="/admin/manage" component={ManageAdm} />
+      <Route path="/admin/manage" component={ ManageAdm } />
     </Switch>
 
   );
