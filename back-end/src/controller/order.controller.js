@@ -1,6 +1,7 @@
 const saleService = require('../services/saleService');
 const productService = require('../services/productsService');
 const saleProductsService = require('../services/salesProductsService');
+const userService = require('../services/usersService');
 
 const orderController = {
   createOrder: async (req, res, _next) => {
@@ -19,9 +20,9 @@ const orderController = {
   },
 
   getDetailedOrder: async (req, res, _next) => {
-    const { saleId } = req.body;
+    const { id } = req.params;
 
-    const arrOfProducts = await saleProductsService.getById(saleId);
+    const arrOfProducts = await saleProductsService.getById(id);
 
     const products = await Promise
       .all(arrOfProducts.map((e) => productService.getById(e.productId)));
@@ -35,9 +36,15 @@ const orderController = {
   },
 
   getById: async (req, res, _next) => {
-    const { id } = req.params;
-    const sale = await saleService.getById(id);
-    return res.status(200).json(sale);
+    try {
+      const { id } = req.params;
+      const sale = await saleService.getById(id);
+      
+      const seller = await userService.getById(sale.sellerId);
+      return res.status(200).json({ sale, seller });
+    } catch (err) {
+      res.status(500).json({ message: 'Pedido não existe' });
+    }
   },
 
   getByIdUser: async (req, res, _next) => {
