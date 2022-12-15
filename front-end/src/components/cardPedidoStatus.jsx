@@ -33,8 +33,14 @@ function CardPedidoStatus() {
 
   const dataFormatada = (dataApi) => {
     const data = new Date(dataApi);
+    const ten = 10;
+
     const dataF = `${((data
       .getDate()))}/${((data.getMonth() + 1))}/${data.getFullYear()}`;
+    if (dataF.length < ten) {
+      const newDate = `0${dataF}`;
+      return newDate;
+    }
     return dataF;
   };
 
