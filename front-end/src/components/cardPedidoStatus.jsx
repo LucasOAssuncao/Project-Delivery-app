@@ -12,19 +12,15 @@ function CardPedidoStatus() {
     const storage = localStorage.getItem('token');
     axios.defaults.headers.common = { Authorization: storage };
 
-    console.log(getIdUser);
-
     const getOrders = async () => {
       if (getRole() === 'seller') {
         const result = await axios.get(`http://localhost:3001/order/seller/${getIdUser}`);
         setOrders(result.data);
-      } else if (getRole() === 'customer') {
-        const result = await axios.get(`http://loscalhost:3001/order/user/${getIdUser}`);
+      } else {
+        const result = await axios.get(`http://localhost:3001/order/user/${getIdUser}`);
         setOrders(result.data);
-        console.log(result);
       }
     };
-
     getOrders();
   }, [getIdUser]);
 

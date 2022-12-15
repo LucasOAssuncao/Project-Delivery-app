@@ -49,15 +49,9 @@ const orderController = {
 
   getByIdUser: async (req, res, _next) => {
     const { id } = req.params;
-    // const user = await userService.getById(id);
-
-    // if (user.role === 'seller') {
-    //   const sale = await saleService.getBySeller(id);
-    //   return res.status(200).json(sale);
-    // }
 
     const sale = await saleService.getByIdUser(id);
-    console.log('sale', sale);
+
     return res.status(200).json(sale);
   },
 
