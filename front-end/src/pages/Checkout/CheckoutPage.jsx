@@ -147,6 +147,7 @@ function Checkout() {
                     </td>
                     <td>
                       <button
+                        className="status-btn"
                         type="button"
                         data-testid={
                           `customer_checkout__element-order-table-remove-${index}`
