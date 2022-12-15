@@ -5,14 +5,10 @@ import NavBar from '../../components/Nav';
 
 function OrderDetails() {
   const { id } = useParams();
-
-  // const {
-  //   location: { pathname },
-  // } = useHistory();
-  // const isCustomer = pathname.includes('customer');
-
   const [order, setOrder] = useState({});
   const [products, setProducts] = useState([]);
+
+  const getRole = () => JSON.parse(localStorage.getItem('user')).role;
 
   useEffect(() => {
     const getOrder = async () => {
@@ -52,12 +48,15 @@ function OrderDetails() {
     return dataF;
   };
 
-  const dataTest1 = 'customer_order_details__element-order-details-label-delivery-status';
-  const dataTest2 = 'customer_order_details__element-order-table-item-number-';
-  const dataTest3 = 'customer_order_details__element-order-table-unit-price-';
-  const dataTest4 = 'customer_order_details__element-order-table-sub-total-';
-  const dataTest5 = 'customer_order_details__element-order-table-name-';
-  const dataTest6 = 'customer_order_details__element-order-table-quantity-';
+  const dataTest1 = '_order_details__element-order-details-label-delivery-status';
+  const dataTest2 = '_order_details__element-order-table-item-number-';
+  const dataTest3 = '_order_details__element-order-table-unit-price-';
+  const dataTest4 = '_order_details__element-order-table-sub-total-';
+  const dataTest5 = '_order_details__element-order-table-name-';
+  const dataTest6 = '_order_details__element-order-table-quantity-';
+  const dataTest7 = '_order_details__element-order-details-label-order-id';
+  const dataTest8 = 'customer_order_details__element-order-details-label-seller-name';
+  const dataTest9 = '_order_details__element-order-details-label-order-date';
 
   return (
     <div>
@@ -66,34 +65,57 @@ function OrderDetails() {
       { order.sale && (
         <div>
           <span
-            data-testid="customer_order_details__element-order-details-label-order-id"
+            data-testid={getRole() + dataTest7}
           >
             {`Pedido ${order.sale.id}`}
           </span>
+          {getRole() === 'customer' && (
+            <span
+              data-testid={dataTest8}
+            >
+              {order.seller.name}
+            </span>)}
           <span
-            data-testid="customer_order_details__element-order-details-label-seller-name"
-          >
-            {order.seller.name}
-          </span>
-          <span
-            data-testid="customer_order_details__element-order-details-label-order-date"
+            data-testid={getRole() + dataTest9}
           >
             {dataFormatada(order.sale.saleDate)}
           </span>
           <span
-            data-testid={ dataTest1 }
+            data-testid={getRole() + dataTest1}
           >
             {order.sale.status}
           </span>
-          <button
-            data-testid="customer_order_details__button-delivery-check"
-            type="button"
-            onClick={ handleButton }
-            value="Entregue"
-            disabled={ order.sale.status !== 'Em trânsito' }
-          >
-            Marcar Como Entregue
-          </button>
+          {getRole() === 'customer' && (
+            <button
+              data-testid="customer_order_details__button-delivery-check"
+              type="button"
+              onClick={handleButton}
+              value="Entregue"
+              disabled={order.sale.status !== 'Em trânsito'}
+            >
+              Marcar Como Entregue
+            </button>)}
+          {getRole() === 'seller' && (
+            <div>
+              <button
+                data-testid="seller_order_details__button-preparing-check"
+                type="button"
+                onClick={handleButton}
+                value="Preparando"
+                disabled={order.sale.status !== 'Pendente'}
+              >
+                Preparar Pedido
+              </button>
+              <button
+                data-testid="seller_order_details__button-dispatch-check"
+                type="button"
+                onClick={handleButton}
+                value="Em Trânsito"
+                disabled={order.sale.status !== 'Preparando'}
+              >
+                Saiu para entrega
+              </button>
+            </div>)}
         </div>)}
       <table>
         <thead>
@@ -106,32 +128,31 @@ function OrderDetails() {
             <th>Remover Item</th>
           </tr>
         </thead>
-
         <tbody>
           {products.map((product, index) => (
             <tr key={ product.name }>
               <td
-                data-testid={ dataTest2 + index }
+                data-testid={getRole() + dataTest2 + index}
               >
                 {`${index + 1}`}
               </td>
               <td
-                data-testid={ dataTest5 + index }
+                data-testid={getRole() + dataTest5 + index}
               >
                 {product.name}
               </td>
               <td
-                data-testid={ dataTest6 + index }
+                data-testid={getRole() + dataTest6 + index}
               >
                 {product.quantity}
               </td>
               <td
-                data-testid={ dataTest3 + index }
+                data-testid={getRole() + dataTest3 + index}
               >
                 {`R$ ${priceValue(product.price)}`}
               </td>
               <td
-                data-testid={ dataTest4 + index }
+                data-testid={getRole() + dataTest4 + index}
               >
                 {`R$ ${subTotalValue(product.price, product.quantity)}`}
               </td>
@@ -142,7 +163,7 @@ function OrderDetails() {
 
       <div>
         <h2
-          data-testid="customer_order_details__element-order-total-price"
+          data-testid={`${getRole()}_order_details__element-order-total-price`}
         >
           {`Total: R$ ${priceValue(localStorage.getItem('totalPrice'))}`}
         </h2>
@@ -150,13 +171,5 @@ function OrderDetails() {
     </div>
   );
 }
-
-// OrderDetails.propTypes = {
-//   match: propTypes.shape({
-//     params: propTypes.shape({
-//       id: propTypes.string,
-//     }),
-//   }).isRequired,
-// };
 
 export default OrderDetails;
