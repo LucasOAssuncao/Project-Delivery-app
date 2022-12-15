@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
@@ -39,7 +40,7 @@ function CardPedidoStatus() {
   };
 
   return (
-    <div>
+    <div className="general-order-container">
       {
         !orders.length ? 'Não tem pedidos registrados'
           : (
@@ -51,40 +52,41 @@ function CardPedidoStatus() {
               deliveryAddress,
               deliveryNumber,
             }) => (
-              <button
-                data-testid={ `${getRole()}_orders__element-order-id-${id}` }
-                key={ id }
-                type="button"
-                onClick={ () => handleClick(id) }
-              >
-                <div>
+              <div className="order-card" key={ id }>
+                <button
+                  data-testid={ `${getRole()}_orders__element-order-id-${id}` }
+                  type="button"
+                  onClick={ () => handleClick(id) }
+                >
+                  <div>
 
-                  <p data-testid={ `${getRole()}_orders__element-order-id-${id}` }>
-                    {`Pedido ${id}`}
-                  </p>
-                  <p data-testid={ `${getRole()}_orders__element-delivery-status-${id}` }>
-                    {status}
-                  </p>
-                  <p data-testid={ `${getRole()}_orders__element-order-date-${id}` }>
-                    {(dataFormatada(saleDate))}
-                  </p>
-                  <p>
-                    R$
-                    <span
-                      data-testid={ `${getRole()}_orders__element-card-price-${id}` }
-                    >
-                      {totalPrice.toString().replace('.', ',')}
-                    </span>
-                  </p>
-                  { getRole() === 'seller' && (
-                    <p
-                      data-testid={ `seller_orders__element-card-address-${id}` }
-                    >
-                      {`${deliveryAddress}, ${deliveryNumber}`}
+                    <h2 data-testid={ `${getRole()}_orders__element-order-id-${id}` }>
+                      {`Pedido ${id}`}
+                    </h2>
+                    <h4 data-testid={ `${getRole()}_orders__element-delivery-status-${id}` }>
+                      {status}
+                    </h4>
+                    <p data-testid={ `${getRole()}_orders__element-order-date-${id}` }>
+                      {(dataFormatada(saleDate))}
                     </p>
-                  ) }
-                </div>
-              </button>
+                    <h3>
+                      R$
+                      <span
+                        data-testid={ `${getRole()}_orders__element-card-price-${id}` }
+                      >
+                        {totalPrice.toString().replace('.', ',')}
+                      </span>
+                    </h3>
+                    { getRole() === 'seller' && (
+                      <p
+                        data-testid={ `seller_orders__element-card-address-${id}` }
+                      >
+                        {`${deliveryAddress}, ${deliveryNumber}`}
+                      </p>
+                    ) }
+                  </div>
+                </button>
+              </div>
             ))
           )
       }

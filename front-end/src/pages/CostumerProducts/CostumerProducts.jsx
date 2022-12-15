@@ -13,7 +13,8 @@ function CustomerProducts() {
     axios.defaults.headers.common = { Authorization: storage };
 
     const init = async () => {
-      const response = await axios.get('http://localhost:3001/products');
+      const response = await axios.get('http://localhost:3001/products')
+        .catch((err) => console.log(err.response.data.message));
       setProducts(response.data);
     };
     init();

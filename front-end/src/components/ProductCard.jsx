@@ -32,8 +32,9 @@ function ProductCard({ id, price, img, name, addItem, removeItem, qtd = 0, setIt
         {name}
 
       </span>
-      <div>
+      <div className="card-division">
         <button
+          className="qty-btn"
           onClick={ () => removeItem(id) }
           type="button"
           data-testid={ `customer_products__button-card-rm-item-${id}` }
@@ -43,6 +44,7 @@ function ProductCard({ id, price, img, name, addItem, removeItem, qtd = 0, setIt
 
         </button>
         <input
+          className="qty-input"
           data-testid={ `customer_products__input-card-quantity-${id}` }
           type="number"
           id="productQtdInput"
@@ -51,6 +53,7 @@ function ProductCard({ id, price, img, name, addItem, removeItem, qtd = 0, setIt
           onChange={ handleChange }
         />
         <button
+          className="qty-btn"
           onClick={ () => addItem({
             id, name, price, urlImage: img, quantity: 1 }) }
           type="button"

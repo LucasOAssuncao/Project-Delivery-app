@@ -26,7 +26,6 @@ function LoginForm() {
       .then((response) => {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('user', JSON.stringify(response.data));
-        console.log(response.data.role);
         if (response.data.role === 'seller') history.push('/seller/orders');
         if (response.data.role === 'administrator') {
           history.push('/admin/manage');
@@ -39,8 +38,8 @@ function LoginForm() {
   };
 
   return (
-    <>
-      <form>
+    <div className="login-container">
+      <form className="form-container">
         <input
           label="Login"
           placeholder="email@trybeer.com"
@@ -57,7 +56,7 @@ function LoginForm() {
         />
         <button
           onClick={ () => handleClick() }
-          className="botao-login"
+          className="login-btn"
           data-testid="common_login__button-login"
           type="button"
           disabled={ disable }
@@ -66,15 +65,16 @@ function LoginForm() {
         </button>
       </form>
       <button
+        className="btn-form"
         onClick={ () => history.push('/register') }
         data-testid="common_login__button-register"
         type="button"
       >
-        Ainda não tenho conta
+        Cadastrar
       </button>
       {!logged
       && <p data-testid="common_login__element-invalid-email">Usuário inválido</p>}
-    </>
+    </div>
   );
 }
 

@@ -31,10 +31,11 @@ function NavBar({ userRole = 'customer' }) {
   };
 
   return (
-    <div className="containerNav">
-      <div className="container">
+    <div className="container-nav">
+      <div className="container-start">
         {userRole === 'customer' && (
           <button
+            className="btn-nav"
             type="button"
             data-testid="customer_products__element-navbar-link-products"
             onClick={ () => history.push('/customer/products') }
@@ -43,6 +44,7 @@ function NavBar({ userRole = 'customer' }) {
           </button>
         )}
         <button
+          className="btn-nav"
           type="button"
           data-testid="customer_products__element-navbar-link-orders"
           onClick={ redirect }
@@ -52,11 +54,12 @@ function NavBar({ userRole = 'customer' }) {
             : 'MEUS PEDIDOS'}
         </button>
       </div>
-      <div className="container">
+      <div className="container-end">
         <p data-testid="customer_products__element-navbar-user-full-name">
           {user.name}
         </p>
         <button
+          className="btn-nav"
           type="button"
           data-testid="customer_products__element-navbar-link-logout"
           onClick={ logout }

@@ -6,8 +6,9 @@ function CartButton({ total }) {
   const history = useHistory();
 
   return (
-    <div className="containerCartButton">
+    <div className="btn-container-cart">
       <button
+        className="containerCartButton"
         type="button"
         data-testid="customer_products__button-cart"
         onClick={ () => {
