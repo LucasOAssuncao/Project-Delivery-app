@@ -54,6 +54,7 @@ function LoginForm() {
         />
         <input
           label="Senha"
+          type="password"
           placeholder="******"
           className="input-senha"
           data-testid="common_login__input-password"

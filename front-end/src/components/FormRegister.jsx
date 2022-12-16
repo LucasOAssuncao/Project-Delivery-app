@@ -32,8 +32,8 @@ function FormRegister() {
   };
 
   return (
-    <div className="containerRegister">
-      <form onSubmit={ handleClick }>
+    <div className="login-container">
+      <form className="form-container" onSubmit={ handleClick }>
         <label htmlFor="nameInput">
           Nome
           <input
@@ -68,6 +68,7 @@ function FormRegister() {
           />
         </label>
         <button
+          className="login-btn"
           data-testid="common_register__button-register"
           type="submit"
           disabled={ !(

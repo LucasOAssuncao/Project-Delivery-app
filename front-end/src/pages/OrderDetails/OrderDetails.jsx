@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-max-depth */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -9,16 +10,13 @@ function OrderDetails() {
   const [order, setOrder] = useState({});
   const getRole = () => JSON.parse(localStorage.getItem('user')).role;
 
-  useEffect(() => {
+  useEffect(async () => {
     const storage = localStorage.getItem('token');
     axios.defaults.headers.common = { Authorization: storage };
-
-    const getOrder = async () => {
-      const response = await axios.get(`http://localhost:3001/order/details/${id}`);
-      setOrder(response.data);
-      console.log(order.sale.status);
-    };
-    getOrder();
+    const response = await axios.get(
+      `http://localhost:3001/order/details/${id}`,
+    );
+    setOrder(response.data);
   }, []);
 
   const priceValue = (price) => {
@@ -35,15 +33,20 @@ function OrderDetails() {
     const { value } = target;
     const storage = localStorage.getItem('token');
     axios.defaults.headers.common = { Authorization: storage };
-    await axios.patch(`http://localhost:3001/order/${id}`, { status: value }, { params: { id } });
+    await axios.patch(
+      `http://localhost:3001/order/${id}`,
+      { status: value },
+      { params: { id } },
+    );
   };
 
   const dataFormatada = (dataApi) => {
     const data = new Date(dataApi);
     const ten = 10;
 
-    const dataF = `${((data
-      .getDate()))}/${((data.getMonth() + 1))}/${data.getFullYear()}`;
+    const dataF = `${data.getDate()}/${
+      data.getMonth() + 1
+    }/${data.getFullYear()}`;
     if (dataF.length < ten) {
       const newDate = `0${dataF}`;
       return newDate;
@@ -61,113 +64,102 @@ function OrderDetails() {
   const dataTest9 = '_order_details__element-order-details-label-order-date';
 
   return (
-    <div>
+    <div className="order-container">
       <NavBar />
-      <p>Detalhe do Pedido</p>
-      { order.sale && (
-        <div>
-          <span
-            data-testid={ getRole() + dataTest7 }
-          >
-            { order.sale.id }
-          </span>
-          {getRole() === 'customer' && (
-            <span
-              data-testid={ dataTest8 }
-            >
-              { order.name }
-            </span>)}
-          <span
-            data-testid={ getRole() + dataTest9 }
-          >
-            {dataFormatada(order.sale.saleDate)}
-          </span>
-          <p
-            data-testid={ getRole() + dataTest1 }
-          >
-            { order.sale.status }
-          </p>
-          {getRole() === 'customer' && (
-            <button
-              data-testid="customer_order_details__button-delivery-check"
-              type="button"
-              onClick={ handleButton }
-              value="Entregue"
-              disabled={ order.sale.status !== 'Em Trânsito' }
-            >
-              Marcar Como Entregue
-            </button>)}
-          {getRole() === 'seller' && (
-            <div>
-              <button
-                data-testid="seller_order_details__button-preparing-check"
-                type="button"
-                onClick={ handleButton }
-                value="Preparando"
-                disabled={ order.sale.status !== 'Pendente' }
-              >
-                Preparar Pedido
-              </button>
-              <button
-                data-testid="seller_order_details__button-dispatch-check"
-                type="button"
-                onClick={ handleButton }
-                value="Em Trânsito"
-                disabled={ order.sale.status !== 'Preparando' }
-              >
-                Saiu para entrega
-              </button>
-            </div>)}
-        </div>)}
-      <table>
-        <thead>
-          <tr>
-            <th>Item</th>
-            <th>Descrição</th>
-            <th>Quantidade</th>
-            <th>Valor Unitário</th>
-            <th>Sub-total</th>
-          </tr>
-        </thead>
-        <tbody>
-          { order.products && order.products.map((product, index) => (
-            <tr key={ product.name }>
-              <td
-                data-testid={ getRole() + dataTest2 + index }
-              >
-                {`${index + 1}`}
-              </td>
-              <td
-                data-testid={ getRole() + dataTest5 + index }
-              >
-                {product.name}
-              </td>
-              <td
-                data-testid={ getRole() + dataTest6 + index }
-              >
-                {product.quantity}
-              </td>
-              <td
-                data-testid={ getRole() + dataTest3 + index }
-              >
-                {`R$ ${priceValue(product.price)}`}
-              </td>
-              <td
-                data-testid={ getRole() + dataTest4 + index }
-              >
-                {`R$ ${subTotalValue(product.price, product.quantity)}`}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
       <div>
-        <h2
-          data-testid={ `${getRole()}_order_details__element-order-total-price` }
-        >
-          { order.sale && `Total: R$ ${priceValue(order.sale.totalPrice)}`}
-        </h2>
+        <h1>Detalhe do Pedido</h1>
+        {order.sale && (
+          <div className="order-info">
+            <span data-testid={ getRole() + dataTest7 }>{`ID: ${order.sale.id}`}</span>
+            {getRole() === 'customer' && (
+              <span data-testid={ dataTest8 }>{order.name}</span>
+            )}
+            <span data-testid={ getRole() + dataTest9 }>
+              {dataFormatada(order.sale.saleDate)}
+            </span>
+            <p data-testid={ getRole() + dataTest1 }>{order.sale.status}</p>
+            {getRole() === 'customer' && (
+              <button
+                className="status-btn"
+                data-testid="customer_order_details__button-delivery-check"
+                type="button"
+                onClick={ handleButton }
+                value="Entregue"
+                disabled={ order.sale.status !== 'Em Trânsito' }
+              >
+                Marcar Como Entregue
+              </button>
+            )}
+
+            {getRole() === 'seller' && (
+              <div>
+                <button
+                  className="status-btn"
+                  data-testid="seller_order_details__button-preparing-check"
+                  type="button"
+                  onClick={ handleButton }
+                  value="Preparando"
+                  disabled={ order.sale.status !== 'Pendente' }
+                >
+                  Preparar Pedido
+                </button>
+                <button
+                  className="status-btn"
+                  data-testid="seller_order_details__button-dispatch-check"
+                  type="button"
+                  onClick={ handleButton }
+                  value="Em Trânsito"
+                  disabled={ order.sale.status !== 'Preparando' }
+                >
+                  Saiu para entrega
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+      <div className="order-table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Descrição</th>
+              <th>Quantidade</th>
+              <th>Valor Unitário</th>
+              <th>Sub-total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {order.products
+            && order.products.map((product, index) => (
+              <tr key={ product.name }>
+                <td data-testid={ getRole() + dataTest2 + index }>
+                  {`${index + 1}`}
+                </td>
+                <td data-testid={ getRole() + dataTest5 + index }>
+                  {product.name}
+                </td>
+                <td data-testid={ getRole() + dataTest6 + index }>
+                  {product.quantity}
+                </td>
+                <td data-testid={ getRole() + dataTest3 + index }>
+                  {`R$ ${priceValue(product.price)}`}
+                </td>
+                <td data-testid={ getRole() + dataTest4 + index }>
+                  {`R$ ${subTotalValue(product.price, product.quantity)}`}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        <div className="total-container">
+          <h2
+            data-testid={ `${getRole()}_order_details__element-order-total-price` }
+          >
+            {order.sale && `Total: R$ ${priceValue(order.sale.totalPrice)}`}
+          </h2>
+        </div>
       </div>
     </div>
   );

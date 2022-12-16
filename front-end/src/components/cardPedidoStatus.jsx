@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-max-depth */
 /* eslint-disable max-len */
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -67,24 +68,24 @@ function CardPedidoStatus() {
                   onClick={ () => handleClick(id) }
                 >
                   <div>
-
                     <h2 data-testid={ `${getRole()}_orders__element-order-id-${id}` }>
                       {`Pedido ${id}`}
                     </h2>
                     <h4 data-testid={ `${getRole()}_orders__element-delivery-status-${id}` }>
-                      {status}
+                      {`Status: ${status}`}
                     </h4>
-                    <p data-testid={ `${getRole()}_orders__element-order-date-${id}` }>
-                      {(dataFormatada(saleDate))}
-                    </p>
-                    <h3>
-                      R$
-                      <span
-                        data-testid={ `${getRole()}_orders__element-card-price-${id}` }
-                      >
-                        {totalPrice.toString().replace('.', ',')}
-                      </span>
-                    </h3>
+                    <div className="date-price-container">
+                      <p data-testid={ `${getRole()}_orders__element-order-date-${id}` }>
+                        {`Data: ${(dataFormatada(saleDate))}`}
+                      </p>
+                      <h3>
+                        <span
+                          data-testid={ `${getRole()}_orders__element-card-price-${id}` }
+                        >
+                          {`Preço: R$ ${(totalPrice.toString().replace('.', ','))}`}
+                        </span>
+                      </h3>
+                    </div>
                     { getRole() === 'seller' && (
                       <p
                         data-testid={ `seller_orders__element-card-address-${id}` }
