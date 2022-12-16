@@ -26,10 +26,15 @@ function LoginForm() {
       .then((response) => {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('user', JSON.stringify(response.data));
-        if (response.data.role === 'seller') history.push('/seller/orders');
+        console.log('loginForm, role:', response.data.role);
+        if (response.data.role === 'seller') {
+          history.push('/seller/orders');
+        }
         if (response.data.role === 'administrator') {
           history.push('/admin/manage');
-        } else history.push('/customer/products');
+        } else if (response.data.role === 'customer') {
+          history.push('/customer/products');
+        }
       })
       .catch((err) => {
         console.log(err.response.data);

@@ -1,6 +1,7 @@
 const md5 = require('md5');
 const usersService = require('../services/usersService');
 const createToken = require('../utils/createToken');
+const errorGenerate = require('../utils/errorGenerate');
 
 const userController = {
   signUp: async (req, res) => {
@@ -10,7 +11,7 @@ const userController = {
     const { id } = await usersService.create({ name, email, cryptoPassword, role });
     const token = createToken({ email, id, name, role });
 
-    res.status(201).json({ name, email, role, token });
+    res.status(201).json({ name, email, role, id, token });
   },
 
   getUser: async (req, res) => {
@@ -18,6 +19,16 @@ const userController = {
 
     res.status(201).json({ name, email, role, id });
   },
+
+  getById: async (req, res) => {
+    try {
+      const { id } = req.body;
+      const seller = await usersService.getById(id);
+      return res.status(201).json(seller);
+    } catch (err) {
+      throw errorGenerate('User does not exist', 404);
+    }
+  }, 
 
   getAllUsers: async (_req, res) => {
     const users = await usersService.getAll();

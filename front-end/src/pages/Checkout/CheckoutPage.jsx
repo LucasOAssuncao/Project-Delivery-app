@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-max-depth */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router';
@@ -8,15 +7,13 @@ function Checkout() {
   const [street, setStreet] = useState('');
   const [number, setNumber] = useState('');
   const [sellers, setSellers] = useState([]);
-  const [sellerId, setSellerId] = useState('');
+  const [sellerId, setSellerId] = useState({});
   const [products, setProducts] = useState([]);
   const [totalPrice, setTotalPrice] = useState();
   const [user, setUser] = useState();
   const [address, setAddress] = useState({});
 
-  // const adress = { street, number };
   const history = useHistory();
-  // const { id } = useParams();
 
   useEffect(() => {
     axios.get('http://localhost:3001/sellers')
@@ -51,7 +48,6 @@ function Checkout() {
     await axios
       .post('http://localhost:3001/order', data)
       .then((response) => {
-        console.log(response.data.saleId);
         history.push(`/customer/orders/${response.data.saleId}`);
       })
       .catch((err) => {
@@ -77,173 +73,167 @@ function Checkout() {
   };
 
   return (
-    <div className="checkout-container">
+    <div>
       <NavBar />
-      <div className="content-checkout-container">
-        <div className="table-container">
-          <h1>Finalizar Pedido</h1>
-          <table>
-            <thead>
-              <tr>
-                <th>
-                  Item
-                </th>
-                <th>
-                  Descrição
-                </th>
-                <th>
-                  Quantidade
-                </th>
-                <th>
-                  Valor Unitário
-                </th>
-                <th>
-                  Sub-total
-                </th>
-                <th>
-                  Remover Item
-                </th>
-              </tr>
-            </thead>
+      <h1>Finalizar Pedido</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>
+              Item
+            </th>
+            <th>
+              Descrição
+            </th>
+            <th>
+              Quantidade
+            </th>
+            <th>
+              Valor Unitário
+            </th>
+            <th>
+              Sub-total
+            </th>
+            <th>
+              Remover Item
+            </th>
+          </tr>
+        </thead>
 
-            <tbody>
-              {
-                products.map((product, index) => (
-                  <tr key={ product.name }>
-                    <td
-                      data-testid={
-                        `customer_checkout__element-order-table-item-number-${index}`
-                      }
-                    >
-                      {`${index + 1}`}
-                    </td>
-                    <td
-                      data-testid={
-                        `customer_checkout__element-order-table-name-${index}`
-                      }
-                    >
-                      {product.name}
-                    </td>
-                    <td
-                      data-testid={
-                        `customer_checkout__element-order-table-quantity-${index}`
-                      }
-                    >
-                      {product.quantity}
-                    </td>
-                    <td
-                      data-testid={
-                        `customer_checkout__element-order-table-unit-price-${index}`
-                      }
-                    >
-                      {`R$ ${priceValue(product.price)}`}
-                    </td>
-                    <td
-                      data-testid={
-                        `customer_checkout__element-order-table-sub-total-${index}`
-                      }
-                    >
-                      {`R$ ${subTotalValue(product.price, product.quantity)}`}
-                    </td>
-                    <td>
-                      <button
-                        className="status-btn"
-                        type="button"
-                        data-testid={
-                          `customer_checkout__element-order-table-remove-${index}`
-                        }
-                        onClick={ () => {
-                          removeItemFromCart(index);
-                        } }
-                      >
-                        Remover
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              }
-            </tbody>
-          </table>
-
-          <div className="total-container">
-            <h2
-              data-testid="customer_checkout__element-order-total-price"
-            >
-              {`Total: R$ ${priceValue(totalPrice)}`}
-
-            </h2>
-          </div>
-        </div>
-
-        <div className="details-container">
-          <h1>Detalhes e Endereço para Entrega</h1>
-          <div className="seller-details">
-            <label htmlFor="select-seller">
-              P. Vendedora Responsável:
-              <select
-                className="seller-select"
-                data-testid="customer_checkout__select-seller"
-                value={ sellerId }
-                onChange={ (event) => {
-                  setSellerId(event.target.value);
-                } }
-              >
-                <option>
-                  Selecione um vendedor
-                </option>
-                {sellers.map((option) => (
-                  <option
-                    key={ option.name }
-                    value={ option.id }
+        <tbody>
+          {
+            products.map((product, index) => (
+              <tr key={ product.name }>
+                <td
+                  data-testid={
+                    `customer_checkout__element-order-table-item-number-${index}`
+                  }
+                >
+                  {`${index + 1}`}
+                </td>
+                <td
+                  data-testid={
+                    `customer_checkout__element-order-table-name-${index}`
+                  }
+                >
+                  {product.name}
+                </td>
+                <td
+                  data-testid={
+                    `customer_checkout__element-order-table-quantity-${index}`
+                  }
+                >
+                  {product.quantity}
+                </td>
+                <td
+                  data-testid={
+                    `customer_checkout__element-order-table-unit-price-${index}`
+                  }
+                >
+                  {`R$ ${priceValue(product.price)}`}
+                </td>
+                <td
+                  data-testid={
+                    `customer_checkout__element-order-table-sub-total-${index}`
+                  }
+                >
+                  {`R$ ${subTotalValue(product.price, product.quantity)}`}
+                </td>
+                <td>
+                  <button
+                    type="button"
+                    data-testid={
+                      `customer_checkout__element-order-table-remove-${index}`
+                    }
+                    onClick={ () => {
+                      removeItemFromCart(index);
+                    } }
                   >
-                    {option.name}
-                  </option>
-                ))}
-              </select>
-            </label>
+                    Remover
+                  </button>
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
 
-            <label htmlFor="input-address">
-              Endereço:
-              <input
-                className="seller-input"
-                type="text"
-                name="street"
-                data-testid="customer_checkout__input-address"
-                value={ street }
-                onChange={ ({ target: { value } }) => {
-                  setStreet(value);
-                  setAddress({ street: value, number });
-                } }
-              />
-            </label>
-            <label htmlFor="input-address-number">
-              Número:
-              <input
-                className="seller-input"
-                type="text"
-                name="number"
-                data-testid="customer_checkout__input-address-number"
-                value={ number }
-                onChange={ ({ target: { value } }) => {
-                  setNumber(value);
-                  setAddress({ street, number: value });
-                } }
-              />
-            </label>
-            <button
-              className="seller-button"
-              type="button"
-              data-testid="customer_checkout__button-submit-order"
-              onClick={ () => {
-                onClickButtonFinalizeOrder();
-              } }
-            >
-              FINALIZAR PEDIDO
-            </button>
-          </div>
-        </div>
+      <div>
+        <h2
+          data-testid="customer_checkout__element-order-total-price"
+        >
+          {`Total: R$ ${priceValue(totalPrice)}`}
+
+        </h2>
+      </div>
+
+      <div>
+        <h1>Detalhes e Endereço para Entrega</h1>
+
+        <label htmlFor="select-seller">
+          <h3>
+            P. Vendedora Responsável:
+          </h3>
+          <select
+            data-testid="customer_checkout__select-seller"
+            value={ sellerId }
+            onChange={ (event) => {
+              setSellerId(event.target.value, event.target.name);
+            } }
+          >
+            <option>
+              Selecione um vendedor
+            </option>
+            {sellers.map((option) => (
+              <option
+                key={ option.name }
+                value={ option.id }
+              >
+                {option.name}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label htmlFor="input-address">
+          Endereço:
+          <input
+            type="text"
+            name="street"
+            data-testid="customer_checkout__input-address"
+            value={ street }
+            onChange={ ({ target: { value } }) => {
+              setStreet(value);
+              setAddress({ street: value, number });
+            } }
+          />
+        </label>
+
+        <label htmlFor="input-address-number">
+          Número:
+          <input
+            type="text"
+            name="number"
+            data-testid="customer_checkout__input-address-number"
+            value={ number }
+            onChange={ ({ target: { value } }) => {
+              setNumber(value);
+              setAddress({ street, number: value });
+            } }
+          />
+        </label>
+        <button
+          type="button"
+          data-testid="customer_checkout__button-submit-order"
+          onClick={ () => {
+            onClickButtonFinalizeOrder();
+          } }
+        >
+          FINALIZAR PEDIDO
+        </button>
       </div>
     </div>
   );
 }
+
 export default Checkout;

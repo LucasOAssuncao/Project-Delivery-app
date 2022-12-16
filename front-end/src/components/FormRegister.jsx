@@ -21,8 +21,9 @@ function FormRegister() {
         role: 'customer',
       })
       .then((response) => {
-        localStorage.setItem('user', JSON.stringify(response.data));
         localStorage.setItem('token', response.data.token);
+        localStorage.setItem('user', JSON.stringify(response.data));
+        setfetchError(null);
         history.push('/customer/products');
       })
       .catch((err) => {
@@ -31,8 +32,8 @@ function FormRegister() {
   };
 
   return (
-    <div className="login-container">
-      <form onSubmit={ handleClick } className="form-container">
+    <div className="containerRegister">
+      <form onSubmit={ handleClick }>
         <label htmlFor="nameInput">
           Nome
           <input
@@ -45,7 +46,7 @@ function FormRegister() {
           />
         </label>
         <label htmlFor="emailInput">
-          Email
+          Login
           <input
             data-testid="common_register__input-email"
             type="email"
@@ -69,7 +70,6 @@ function FormRegister() {
         <button
           data-testid="common_register__button-register"
           type="submit"
-          className="login-btn"
           disabled={ !(
             email.match(/\S+@\S+\.\S+/i)
             && password.length >= passwordMinLength

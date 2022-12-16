@@ -15,11 +15,11 @@ const productsService = {
         return products;
     },
 
-    getById: async (id) => {
+    getById: async (id, quantity) => {
         const product = await Product.findByPk(id);
 
         if (product === null) throw errorGenerate('Product does not exist', 404);
-        return product;
+        return { ...product.dataValues, quantity };
     },
 
     delete: async (id) => Product.destroy({ where: { id } }),

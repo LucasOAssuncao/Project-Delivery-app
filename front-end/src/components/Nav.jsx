@@ -28,6 +28,7 @@ function NavBar({ userRole = 'customer' }) {
     if (user.role === 'administrator') {
       history.push('/admin/manage');
     }
+    window.location.reload(false);
   };
 
   return (
