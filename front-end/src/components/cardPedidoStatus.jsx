@@ -12,14 +12,15 @@ function CardPedidoStatus() {
     const storage = localStorage.getItem('token');
     axios.defaults.headers.common = { Authorization: storage };
 
-    console.log(getIdUser);
-
     const getOrders = async () => {
-      const result = await axios.get(`http://localhost:3001/order/user/${getIdUser}`);
-      setOrders(result.data);
-      console.log(result);
+      if (getRole() === 'seller') {
+        const result = await axios.get(`http://localhost:3001/order/seller/${getIdUser}`);
+        setOrders(result.data);
+      } else {
+        const result = await axios.get(`http://localhost:3001/order/user/${getIdUser}`);
+        setOrders(result.data);
+      }
     };
-
     getOrders();
   }, [getIdUser]);
 
@@ -37,6 +38,7 @@ function CardPedidoStatus() {
 
     const dataF = `${((data
       .getDate()))}/${((data.getMonth() + 1))}/${data.getFullYear()}`;
+
     if (dataF.length < ten) {
       const newDate = `0${dataF}`;
       return newDate;

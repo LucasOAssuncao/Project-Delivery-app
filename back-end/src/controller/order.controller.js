@@ -49,8 +49,17 @@ const orderController = {
 
   getByIdUser: async (req, res, _next) => {
     const { id } = req.params;
+
     const sale = await saleService.getByIdUser(id);
+
     return res.status(200).json(sale);
+  },
+
+  getBySeller: async (req, res, _next) => {
+    const { id } = req.params;
+
+      const sale = await saleService.getBySeller(id);
+      return res.status(200).json(sale);
   },
 
   editStatusSale: async (req, res) => {
