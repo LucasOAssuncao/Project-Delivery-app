@@ -6,22 +6,29 @@ import NavBar from '../../components/Nav';
 function OrderDetails() {
   const { id } = useParams();
   const [order, setOrder] = useState({});
-  const [products, setProducts] = useState([]);
+  // const [products, setProducts] = useState([]);
+  // const [status, setStatus] = useState('Pendente');
 
   const getRole = () => JSON.parse(localStorage.getItem('user')).role;
 
   useEffect(() => {
+    const storage = localStorage.getItem('token');
+    axios.defaults.headers.common = { Authorization: storage };
+
     const getOrder = async () => {
-      const storage = localStorage.getItem('token');
-      axios.defaults.headers.common = { Authorization: storage };
-      const response = await axios.get(`http://localhost:3001/order/${id}`);
-      console.log(response.data);
+      // if (getRole() === 'customer') {
+      //   const response = await axios.get(`http://localhost:3001/order/${id}`);
+      //   setOrder(response.data);
+      //   const productsArr = JSON.parse(localStorage.getItem('cart'));
+      //   setProducts(productsArr);
+      // } else {
+      const response = await axios.get(`http://localhost:3001/order/details/${id}`);
+      // setProducts(response.data.products);
       setOrder(response.data);
+      console.log(order.sale.status);
+      // }
     };
     getOrder();
-
-    const productsArr = JSON.parse(localStorage.getItem('cart'));
-    setProducts(productsArr);
   }, []);
 
   const priceValue = (price) => {
@@ -38,7 +45,7 @@ function OrderDetails() {
     const { value } = target;
     const storage = localStorage.getItem('token');
     axios.defaults.headers.common = { Authorization: storage };
-    axios.patch(`http://localhost:3001/order/${id}`, { status: value }, { params: { id } });
+    await axios.patch(`http://localhost:3001/order/${id}`, { status: value }, { params: { id } });
   };
 
   const dataFormatada = (dataApi) => {
@@ -53,7 +60,6 @@ function OrderDetails() {
     }
     return dataF;
   };
-
   const dataTest1 = '_order_details__element-order-details-label-delivery-status';
   const dataTest2 = '_order_details__element-order-table-item-number-';
   const dataTest3 = '_order_details__element-order-table-unit-price-';
@@ -73,31 +79,33 @@ function OrderDetails() {
           <span
             data-testid={ getRole() + dataTest7 }
           >
-            {`Pedido ${order.sale.id}`}
+            {/* { getRole() !== 'seller' ? `Pedido ${order.id}` : `Pedido ${order.sale.id}` } */}
+            { order.sale.id }
           </span>
           {getRole() === 'customer' && (
             <span
               data-testid={ dataTest8 }
             >
-              {order.seller.name}
+              {/* { getRole() !== 'seller' ? order.seller.name : order.name } */}
+              { order.name }
             </span>)}
           <span
             data-testid={ getRole() + dataTest9 }
           >
             {dataFormatada(order.sale.saleDate)}
           </span>
-          <span
+          <p
             data-testid={ getRole() + dataTest1 }
           >
-            {order.sale.status}
-          </span>
+            { order.sale.status }
+          </p>
           {getRole() === 'customer' && (
             <button
               data-testid="customer_order_details__button-delivery-check"
               type="button"
               onClick={ handleButton }
               value="Entregue"
-              disabled={ order.sale.status !== 'Em trânsito' }
+              disabled={ order.sale.status !== 'Em Trânsito' }
             >
               Marcar Como Entregue
             </button>)}
@@ -131,11 +139,10 @@ function OrderDetails() {
             <th>Quantidade</th>
             <th>Valor Unitário</th>
             <th>Sub-total</th>
-            <th>Remover Item</th>
           </tr>
         </thead>
         <tbody>
-          {products.map((product, index) => (
+          { order.products && order.products.map((product, index) => (
             <tr key={ product.name }>
               <td
                 data-testid={ getRole() + dataTest2 + index }
@@ -171,7 +178,7 @@ function OrderDetails() {
         <h2
           data-testid={ `${getRole()}_order_details__element-order-total-price` }
         >
-          {`Total: R$ ${priceValue(localStorage.getItem('totalPrice'))}`}
+          { order.sale && `Total: R$ ${priceValue(order.sale.totalPrice)}`}
         </h2>
       </div>
     </div>

@@ -19,7 +19,6 @@ function Checkout() {
     axios.get('http://localhost:3001/sellers')
       .then((response) => {
         const { data } = response;
-        console.log(data);
         setSellers(data);
       })
       .catch((err) => {
@@ -49,7 +48,6 @@ function Checkout() {
     await axios
       .post('http://localhost:3001/order', data)
       .then((response) => {
-        console.log(response.data.saleId);
         history.push(`/customer/orders/${response.data.saleId}`);
       })
       .catch((err) => {

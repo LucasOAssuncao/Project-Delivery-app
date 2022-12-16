@@ -24,10 +24,13 @@ const orderController = {
 
     const arrOfProducts = await saleProductsService.getById(id);
 
-    const products = await Promise
-      .all(arrOfProducts.map((e) => productService.getById(e.productId)));
+    const sale = await saleService.getById(id);
+    const { name } = await userService.getById(sale.sellerId);
 
-    return res.status(200).json(products);
+    const products = await Promise
+      .all(arrOfProducts.map((e) => productService.getById(e.productId, e.quantity)));
+
+    return res.status(200).json({ products, sale, name });
   },
 
   getAll: async (_req, res, _next) => {
