@@ -2,11 +2,6 @@
 
 Este foi um projeto feito em grupo para a Trybe(escola de desenvolvimento web), foi um projeto com intuito de construir uma aplicação para mobile que serve como um aplicativo de receitas.
 
-
-# Link do projeto
-
-https://project-recipes-app-lilac.vercel.app/
-
 # Como foi desenvolvimento
 
 Esse projeto foi feito em equipe dentro da organização da <a href="https://www.betrybe.com/" target="blanck" >TRYBE</a>. 
