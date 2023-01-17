@@ -1,6 +1,6 @@
 # Boas-vindas ao repositório do projeto App de Receitas!
 
-Este foi um projeto feito em grupo para a Trybe(escola de desenvolvimento web), foi um projeto com intuito de construir uma aplicação para mobile que serve como um aplicativo de receitas.
+Este foi um projeto feito em grupo para a Trybe(escola de desenvolvimento web), foi um projeto com intuito de construir uma aplicação web que serve como um aplicativo de delivery.
 
 # Como foi desenvolvimento
 
