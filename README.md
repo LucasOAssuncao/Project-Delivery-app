@@ -32,7 +32,7 @@ Em resumo sera feito a comunicação entre clientes e pessoas vendedoras: a pess
 <h3>1. Faça o git clone na sua máquina e entre no diretório:</h3><br>
 
  - Lembre-se de clonar o repositório no diretório desejado na sua máquina!<br>
- `git git@github.com:LucasBelgamann/delivery_app.git`<br>
+ `git clone https://github.com/LucasOAssuncao/Project-Delivery-app.git`<br>
  `cd delivery_app`<br>
 
  - Após isso rode o seguinte comando para iniciar um container MySql!<br>
